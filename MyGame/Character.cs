@@ -25,13 +25,13 @@ namespace MyGame
         float startY;
         public bool jumping;
         float jumpspeed;
-        public Rectangle Block { get; set; }
+        public List<Block> Blocks { get; set; }
         public Rectangle frame { get; set; }
 
 
 
 
-        public Character(Texture2D texture, Vector2 startPosition, SpriteBatch spritebatch, Rectangle block)
+        public Character(Texture2D texture, Vector2 startPosition, SpriteBatch spritebatch, List<Block> blocks)
         {
             _texture = texture;
             _startPosition = startPosition;
@@ -41,7 +41,7 @@ namespace MyGame
              jumping = false;//Init jumping to false
              jumpspeed = 0;//Default no speed
             hitbox = new Hitbox(_startPosition);
-            Block = block;
+            Blocks = blocks;
 
 
         }
@@ -118,16 +118,19 @@ namespace MyGame
 
             if (Keyboard.GetState().IsKeyDown(Keys.S) || !jumping)
             {
-                if (hitbox.TrueHitbox.Intersects(surface) || hitbox.TrueHitbox.Intersects(Block))
-                {
-                    _startPosition.Y += 0;
-                   
-                }
-                else
-                {
-                    _startPosition.Y += speed;
-                    isMoving = true;
-                }
+               
+                    if (hitbox.TrueHitbox.Intersects(surface) || hitbox.TrueHitbox.Intersects(/*block*/))
+                    {
+                        _startPosition.Y += 0;
+
+                    }
+                    else
+                    {
+                        _startPosition.Y += speed;
+                        isMoving = true;
+                    }
+                
+                
 
             }
 

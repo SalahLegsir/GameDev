@@ -27,7 +27,7 @@ namespace MyGame
         private Sprites sprite;
         Dictionary<string, List<Rectangle>> movements;
         SpriteFont spriteFont;
-        Texture2D blokTexture;
+        Texture2D blockTexture;
         Rectangle hero;
         Rectangle block;
         Rectangle surface;
@@ -36,8 +36,9 @@ namespace MyGame
         Vector2 blockPos = new Vector2(200, 200);
         Texture2D background;
         Rectangle block2 = new Rectangle(600, 500, 100, 30);
+        List<Block> blocks;
         
-
+       
 
 
 
@@ -71,6 +72,8 @@ namespace MyGame
             movements = sprite.MakeDictionary();
 
             
+
+            
         
            
 
@@ -89,12 +92,25 @@ namespace MyGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            blokTexture = new Texture2D(GraphicsDevice, 1, 1);
-            blokTexture.SetData(new[] { Color.White });
+            blockTexture = new Texture2D(GraphicsDevice, 1, 1);
+            blockTexture.SetData(new[] { Color.White });
             block = new Rectangle(200, 200, 70, 70);
             surface = new Rectangle(0, 720, 1000, 20);
-            person = new Character(texture, vector, _spriteBatch,block2);
             
+            
+           
+
+            blocks = new List<Block>() {
+            new Block(100, 500, 100, 30,_spriteBatch),
+            new Block(200, 100, 100, 30,_spriteBatch),
+            new Block(600, 500, 100, 30,_spriteBatch),
+            new Block(600, 100, 100, 30,_spriteBatch)
+            
+
+        };
+
+            person = new Character(texture, vector, _spriteBatch, blocks);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -138,14 +154,20 @@ namespace MyGame
 
             _spriteBatch.Draw(background, new Rectangle(0,0,background.Width,background.Height), Color.White);
             //_spriteBatch.Draw(background, background1.backgroundPos, background1.backgroundRec, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-            _spriteBatch.Draw(blokTexture, blockPos, block, blockColor, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+            _spriteBatch.Draw(blockTexture, blockPos, block, blockColor, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
             // _spriteBatch.Draw(blokTexture, new Vector2(person.TrueHitbox.X,person.TrueHitbox.Y), person.TrueHitbox, Color.Orange, 0, new Vector2(0, 0), new Vector2(2, 2), SpriteEffects.None, 0);
            // _spriteBatch.Draw(blokTexture, block, blockColor);
-            _spriteBatch.Draw(blokTexture, person.hitbox.TrueHitbox, Color.Orange);
+            _spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
 
-            _spriteBatch.Draw(blokTexture, surface, Color.Black);
-            
-            _spriteBatch.Draw(blokTexture,new Vector2(600,500), block2, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+            _spriteBatch.Draw(blockTexture, surface, Color.Black);
+
+            // _spriteBatch.Draw(blokTexture,new Vector2(600,500), block2, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+
+            foreach (var block in blocks)
+            {
+                block.Draw(blockTexture);
+            }
+           
            
             person.Draw(currentFrame);
             
