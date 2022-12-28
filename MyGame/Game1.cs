@@ -35,9 +35,10 @@ namespace MyGame
         Color heroColor = Color.Green;
         Vector2 blockPos = new Vector2(200, 200);
         Texture2D background;
+        Texture2D gameOver;
         Rectangle block2 = new Rectangle(600, 500, 100, 30);
         List<Block> blocks;
-        
+        Gameover gameOverScreen;
        
 
 
@@ -61,7 +62,7 @@ namespace MyGame
         {
             // TODO: Add your initialization logic here
             background = Content.Load<Texture2D>("Background");
-           
+            gameOver = Content.Load<Texture2D>("GameOver");
             texture = Content.Load<Texture2D>("Fighter");
             spriteFont = Content.Load<SpriteFont>("counter");
             vector = new Vector2(0, 0);
@@ -96,9 +97,9 @@ namespace MyGame
             blockTexture.SetData(new[] { Color.White });
             block = new Rectangle(200, 200, 70, 70);
             surface = new Rectangle(0, 720, 1000, 20);
-            
-            
-           
+
+
+            gameOverScreen = new Gameover(_spriteBatch);
 
             blocks = new List<Block>() {
             new Block(100, 500, 100, 30,_spriteBatch),
@@ -170,6 +171,12 @@ namespace MyGame
            
            
             person.Draw(currentFrame);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                gameOverScreen.Draw(gameOver);
+            }
+           
             
 
 

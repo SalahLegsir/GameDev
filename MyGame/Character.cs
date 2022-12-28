@@ -119,7 +119,7 @@ namespace MyGame
             if (Keyboard.GetState().IsKeyDown(Keys.S) || !jumping)
             {
                
-                    if (hitbox.TrueHitbox.Intersects(surface) || hitbox.TrueHitbox.Intersects(/*block*/))
+                    if (hitbox.TrueHitbox.Intersects(surface) || hitbox.TrueHitbox.Intersects(Blocks[0].block))
                     {
                         _startPosition.Y += 0;
 
