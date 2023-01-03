@@ -36,7 +36,7 @@ namespace MyGame
         }
 
 
-        private List<Rectangle> MakeList(int frameCount, int row)
+        public List<Rectangle> MakeList(int frameCount, int row)
         {
 
             List<Rectangle> frames = new List<Rectangle>();

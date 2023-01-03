@@ -5,6 +5,7 @@ using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
 using SharpDX.XAudio2;
 using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
 using System.Drawing;
 using System.Linq.Expressions;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
@@ -38,7 +39,14 @@ namespace MyGame
         Texture2D gameOver;
         Rectangle block2 = new Rectangle(600, 500, 100, 30);
         List<Block> blocks;
+        Texture2D coin;
         Gameover gameOverScreen;
+        Main mainScreen;
+        bool enterPressed = false;
+        List<Rectangle> coinFrames = new List<Rectangle>();
+        Sprites coins = new Sprites(200, 200);
+        FPS coinFPS = new FPS();
+        Rectangle coinFrame;
        
 
 
@@ -64,7 +72,8 @@ namespace MyGame
             background = Content.Load<Texture2D>("Background");
             gameOver = Content.Load<Texture2D>("GameOver");
             texture = Content.Load<Texture2D>("Fighter");
-            spriteFont = Content.Load<SpriteFont>("counter");
+            spriteFont = Content.Load<SpriteFont>("start");
+            coin = Content.Load<Texture2D>("coin");
             vector = new Vector2(0, 0);
             fpsIdle = new FPS();
             fpsWalk = new FPS();
@@ -72,7 +81,8 @@ namespace MyGame
             sprite = new Sprites(64, 64);
             movements = sprite.MakeDictionary();
 
-            
+
+            coinFrames = coins.MakeList(6, 0);
 
             
         
@@ -100,6 +110,7 @@ namespace MyGame
 
 
             gameOverScreen = new Gameover(_spriteBatch);
+            mainScreen = new Main(_spriteBatch);
 
             blocks = new List<Block>() {
             new Block(100, 500, 100, 30,_spriteBatch),
@@ -108,9 +119,11 @@ namespace MyGame
             new Block(600, 100, 100, 30,_spriteBatch)
             
 
-        };
+            };
 
-            person = new Character(texture, vector, _spriteBatch, blocks);
+            person = new Character(texture, vector, _spriteBatch);
+
+            person.Blocks = blocks;
 
             // TODO: use this.Content to load your game content here
         }
@@ -119,29 +132,49 @@ namespace MyGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+           
+               
 
-
-            if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                if (person.Move(currentFrame, 4,surface, block, blockPos))
-                {
-                    currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
-                    
-                   
+                enterPressed = true;
 
-                } 
+            }
+
+            if(enterPressed)
+            {
+                coinFrame = coinFPS.Fps(gameTime, coinFrames);
+                
+                if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
+                {
+                    if (person.Move(currentFrame, 4, surface, block, blockPos))
+                    {
+                        currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
+
+
+
+                    }
+                    else
+                    {
+
+                        currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
+                    }
+                }
                 else
                 {
-                  
-                    currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
+                    currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
                 }
-            }else
-            {
-                currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
-            }
-           
 
-            Collision();
+
+                Collision();
+            }
+
+            
+
+           
+            
+                
+            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -151,36 +184,43 @@ namespace MyGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            //_spriteBatch.DrawString(spriteFont, fps.counter.ToString(), new Vector2(20, 20), Color.Black);
 
-            _spriteBatch.Draw(background, new Rectangle(0,0,background.Width,background.Height), Color.White);
-            //_spriteBatch.Draw(background, background1.backgroundPos, background1.backgroundRec, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-            _spriteBatch.Draw(blockTexture, blockPos, block, blockColor, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-            // _spriteBatch.Draw(blokTexture, new Vector2(person.TrueHitbox.X,person.TrueHitbox.Y), person.TrueHitbox, Color.Orange, 0, new Vector2(0, 0), new Vector2(2, 2), SpriteEffects.None, 0);
-           // _spriteBatch.Draw(blokTexture, block, blockColor);
-            _spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
-
-            _spriteBatch.Draw(blockTexture, surface, Color.Black);
-
-            // _spriteBatch.Draw(blokTexture,new Vector2(600,500), block2, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-
-            foreach (var block in blocks)
+            if (enterPressed)
             {
-                block.Draw(blockTexture);
-            }
-           
-           
-            person.Draw(currentFrame);
+                _spriteBatch.Draw(background, new Rectangle(0, 0, background.Width, background.Height), Color.White);
+                //_spriteBatch.Draw(background, background1.backgroundPos, background1.backgroundRec, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+                _spriteBatch.Draw(blockTexture, blockPos, block, blockColor, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+                // _spriteBatch.Draw(blokTexture, new Vector2(person.TrueHitbox.X,person.TrueHitbox.Y), person.TrueHitbox, Color.Orange, 0, new Vector2(0, 0), new Vector2(2, 2), SpriteEffects.None, 0);
+                // _spriteBatch.Draw(blokTexture, block, blockColor);
+                _spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+                _spriteBatch.Draw(blockTexture, surface, Color.Black);
+
+                // _spriteBatch.Draw(blokTexture,new Vector2(600,500), block2, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+
+                foreach (var block in blocks)
+                {
+                    block.Draw(blockTexture);
+                }
+
+                person.Draw(currentFrame);
+
+                _spriteBatch.Draw(coin, new Vector2(0, 0), coinFrame, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), 0, 0);
+
+                if (person.lost)
+                {
+                    _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
+                    gameOverScreen.Draw(gameOver);
+                }
+                
+            }else
             {
-                gameOverScreen.Draw(gameOver);
+                mainScreen.Draw(background, spriteFont);
             }
-           
-            
-
 
             _spriteBatch.End();
+
+            
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

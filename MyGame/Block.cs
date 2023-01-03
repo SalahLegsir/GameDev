@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using SharpDX.Direct2D1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MyGame
 {
@@ -28,5 +30,14 @@ namespace MyGame
             
             spriteBatch.Draw(blockTexture, new Vector2(block.X, block.Y), block, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
         }
+
+        public  bool Collision(Rectangle hitbox)
+        {
+            return block.Intersects(hitbox);
+            
+            
+        }
+
+
     }
 }

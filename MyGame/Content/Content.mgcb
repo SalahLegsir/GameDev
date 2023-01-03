@@ -25,12 +25,17 @@
 /processorParam:TextureFormat=Color
 /build:Background.png
 
-#begin counter.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+#begin coin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:counter.spritefont
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:coin.png
 
 #begin Fighter.png
 /importer:TextureImporter
@@ -55,4 +60,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GameOver.png
+
+#begin start.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:start.spritefont
 

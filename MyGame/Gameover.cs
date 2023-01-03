@@ -21,7 +21,8 @@ namespace MyGame
 
         public void Draw(Texture2D gameOver)
         {
-            _spriteBatch.Draw(gameOver, new Rectangle(200, 300, gameOver.Width, gameOver.Height), Color.White);
+            
+            _spriteBatch.Draw(gameOver, new Rectangle(250, 300, gameOver.Width, gameOver.Height), Color.White);
         }
     }
 }
