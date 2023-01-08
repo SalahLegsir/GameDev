@@ -11,15 +11,10 @@ namespace MyGame
 {
     internal class FPS
     {
-        public FPS()
-        {
-           
 
-        }
-
-        Rectangle currentFrame;
-         int counter = 0;
-        double secondCounter = 0;
+        private Rectangle currentFrame;
+        private int counter = 0;
+        private double secondCounter = 0;
       
         
         public Rectangle Fps(GameTime gametime, List<Rectangle> frames)

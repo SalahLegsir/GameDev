@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,26 @@ namespace MyGame
     internal class Hitbox
     {
         public Rectangle TrueHitbox { get; set; }
+        private int _startPositionX { get; set; }
+        private int _startPositionY { get; set; }
+        private int width { get; set; }
+        private int height { get; set; }
 
-        public Hitbox(Vector2 _startPosition)
+        public Hitbox(int _startPositionX, int _startPositionY, int w, int h)
         {
-            TrueHitbox = new Rectangle((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
+            this._startPositionX = _startPositionX;
+            this._startPositionY = _startPositionY;
+            this.width = w;
+            this.height = h;
+            TrueHitbox = new Rectangle(this._startPositionX,this._startPositionY,this.width,this.height);
         }
 
-        public void Update(Vector2 start)
+        public void Update(int _startPositionX, int _startPositionY)
         {
-            TrueHitbox = new Rectangle((int)start.X + 19 * 2, (int)start.Y + 22 * 2, 25 * 2, 33 * 2);
+            this._startPositionX = _startPositionX;
+            this._startPositionY = _startPositionY;
+            
+            TrueHitbox = new Rectangle(this._startPositionX, this._startPositionY, this.width, this.height);
         }
 
        

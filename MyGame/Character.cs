@@ -23,13 +23,13 @@ namespace MyGame
         public Hitbox hitbox { get; set; }
         public int x { get; set; }
 
-        float startY;
         public bool jumping;
         float jumpspeed;
         public List<Block> Blocks { get; set; }
         public Rectangle frame { get; set; }
         private int gravity = 1;
         public bool lost = false;
+        public int health = 3;
 
 
 
@@ -40,23 +40,20 @@ namespace MyGame
             _startPosition = startPosition;
             _spritebatch = spritebatch;
             x = 0;
-            startY = _startPosition.Y;//Starting position
-            jumping = false;//Init jumping to false
-            jumpspeed = 0;//Default no speed
-            hitbox = new Hitbox(_startPosition);
+            jumping = false;
+            jumpspeed = 0;
+            hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
 
-
+            _startPosition.X = 250;
 
         }
 
         public void Draw(Rectangle _currentFrame)
         {
             _spritebatch.Draw(_texture, _startPosition, _currentFrame, Color.White, 0, new Vector2(0, 0), new Vector2(2, 2), effect, 0);
-
-
         }
 
-        public bool Move(Rectangle _currentFrame, int speed, Rectangle surface, Rectangle block, Vector2 blockPos)
+        public bool Move(Rectangle _currentFrame, int speed, Rectangle surface)
         {
 
 
@@ -64,10 +61,11 @@ namespace MyGame
             isMoving = false;
             if (Keyboard.GetState().IsKeyDown(Keys.Z))
             {
-                if (_startPosition.Y <= 0 || hitbox.TrueHitbox.Intersects(block))
+                if (_startPosition.Y <= 0)
                 {
                     _startPosition.Y += 0;
-                    blockPos.Y++;
+
+                   
 
 
                 }
@@ -103,10 +101,10 @@ namespace MyGame
 
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                if (_startPosition.X + _currentFrame.Width >= 736 || hitbox.TrueHitbox.Intersects(block))
+                if (_startPosition.X + hitbox.TrueHitbox.Width >= 895)
                 {
                     _startPosition.X += 0;
-                    blockPos.X += 50;
+                   
 
                 }
                 else
@@ -131,8 +129,6 @@ namespace MyGame
                 {
                     _startPosition.Y += 0;
                     gravity = 1;
-                    
-
                 }
                 else
                 {
@@ -149,7 +145,7 @@ namespace MyGame
                 }
             }
 
-            hitbox.Update(_startPosition);
+            hitbox.Update((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2);
 
             Jump();
             return isMoving;
@@ -172,68 +168,24 @@ namespace MyGame
 
         public bool Jump()
         {
-            //KeyboardState keyState = Keyboard.GetState();
-            //if (jumping)  //http://flatformer.blogspot.com/2010/02/making-character-jump-in-xnac-basic.html
-            //{
-            //    _startPosition.Y += jumpspeed;//Making it go up
-
-
-
-
-            //    jumpspeed += 1;
-
-
-
-
-            //    if (hitbox.TrueHitbox.Intersects(Block))
-            //    //If it's farther than ground
-            //    {
-
-            //        _startPosition.Y = Block.Y - frame.Height - 45;//Then set it on
-            //        jumping = false;
-            //    }
-            //}
-            //else
-            //{
-            //    if (keyState.IsKeyDown(Keys.Space))
-            //    {
-            //        jumping = true;
-            //        jumpspeed = -14;//Give it upward thrust
-            //        startY = _startPosition.Y;
-            //    }
-            //}
-
-            //return jumping;
-
+            //Bron :http://flatformer.blogspot.com/2010/02/making-character-jump-in-xnac-basic.html
 
             KeyboardState keyState = Keyboard.GetState();
+
             bool falling = false;
-            if (jumping)  //http://flatformer.blogspot.com/2010/02/making-character-jump-in-xnac-basic.html
+            if (jumping)
             {
                 if (jumpspeed < 0 && !falling)
                 {
-                    _startPosition.Y += jumpspeed;//Making it go up
+                    _startPosition.Y += jumpspeed;
 
                     jumpspeed += 1;
 
                 }
                 else
                 {
-                    //if (hitbox.TrueHitbox.Intersects(Block))
-                    //{
-                    //    _startPosition.Y += 0;
-                    //    jumping = false;
-
-                    //}
-                    //else
-                    //{
-                    //    _startPosition.Y += 7;
-                    //}
-
                     jumping = false;
                     falling = true;
-
-
                 }
             }
             else
@@ -242,7 +194,7 @@ namespace MyGame
                 {
                     jumping = true;
                     falling = false;
-                    jumpspeed = -14;//Give it upward thrust
+                    jumpspeed = -14;
                 }
             }
 

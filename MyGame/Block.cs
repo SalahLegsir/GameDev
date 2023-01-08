@@ -34,8 +34,6 @@ namespace MyGame
         public  bool Collision(Rectangle hitbox)
         {
             return block.Intersects(hitbox);
-            
-            
         }
 
 

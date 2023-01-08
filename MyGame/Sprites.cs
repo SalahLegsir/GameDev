@@ -54,35 +54,5 @@ namespace MyGame
             _frameRect.Y = 0;
             return frames;
         }
-
-        //public List<Rectangle> MakeList()
-        //{
-        //    List<Rectangle> frames = new List<Rectangle>();
-
-        //    for (int i = 0; i < 10; i++)
-        //    {
-
-        //        if (_frameRect.X > 720)
-        //        {
-        //            _frameRect.X = 0;
-
-        //            _frameRect.Y += _heightFrame; // 2de rij
-
-        //            if (_frameRect.Y > _heightFrame) // terug naar 1ste rij
-        //            {
-        //                _frameRect.Y = 26;
-        //            }
-        //        }
-
-        //        frames.Add(_frameRect);
-
-        //        _frameRect.X += _widthFrame;
-
-        //    }
-
-        //    return frames;
-
-        //}
-
     }
 }

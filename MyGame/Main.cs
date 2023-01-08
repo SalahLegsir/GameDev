@@ -21,7 +21,7 @@ namespace MyGame
         {
 
             _spriteBatch.Draw(main, new Rectangle(0, 0, main.Width, main.Height), Color.White);
-            _spriteBatch.DrawString(spriteFont, "Press Enter to start ...", new Vector2(main.Width/2 - 50, main.Height/2), Color.Black);
+            _spriteBatch.DrawString(spriteFont, "Press Enter to start ...", new Vector2(main.Width/2 - 100, main.Height/2), Color.White);
         }
     }
 }

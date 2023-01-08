@@ -26,29 +26,25 @@ namespace MyGame
         private FPS fpsPowerShot;
         private Rectangle currentFrame;
         private Sprites sprite;
-        Dictionary<string, List<Rectangle>> movements;
-        SpriteFont spriteFont;
-        Texture2D blockTexture;
-        Rectangle hero;
-        Rectangle block;
-        Rectangle surface;
-        Color blockColor = Color.Green;
-        Color heroColor = Color.Green;
-        Vector2 blockPos = new Vector2(200, 200);
-        Texture2D background;
-        Texture2D gameOver;
-        Rectangle block2 = new Rectangle(600, 500, 100, 30);
-        List<Block> blocks;
-        Texture2D coin;
-        Gameover gameOverScreen;
-        Main mainScreen;
-        bool enterPressed = false;
-        List<Rectangle> coinFrames = new List<Rectangle>();
-        Sprites coins = new Sprites(200, 200);
-        FPS coinFPS = new FPS();
-        Rectangle coinFrame;
-       
-
+        private Dictionary<string, List<Rectangle>> movements;
+        private SpriteFont spriteFont;
+        private Texture2D blockTexture;
+        private Rectangle surface;
+        private Texture2D background;
+        private Texture2D gameOver;
+        private Rectangle block2 = new Rectangle(600, 500, 100, 30);
+        private List<Block> blocks;
+        private Texture2D coin;
+        private Gameover gameOverScreen;
+        private Main mainScreen;
+        private bool enterPressed = false;
+        private List<Rectangle> coinFrames = new List<Rectangle>();
+        private Sprites coins = new Sprites(200, 200);
+        private FPS coinFPS = new FPS();
+        private Rectangle coinFrame;
+        private Hitbox coinBox = new Hitbox(15,28,175,170);
+        private Texture2D heart;
+        private bool won = false;
 
 
 
@@ -56,10 +52,6 @@ namespace MyGame
         {
             _graphics = new GraphicsDeviceManager(this);
             // Set Resolution https://www.industrian.net/tutorials/changing-display-resolution/#:~:text=MonoGame's%20default%20resolution%20is%20800x480,resolution%20of%20a%20MonoGame%20project.
-
-            
-
-            
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -74,6 +66,9 @@ namespace MyGame
             texture = Content.Load<Texture2D>("Fighter");
             spriteFont = Content.Load<SpriteFont>("start");
             coin = Content.Load<Texture2D>("coin");
+            heart = Content.Load<Texture2D>("heart48");
+
+
             vector = new Vector2(0, 0);
             fpsIdle = new FPS();
             fpsWalk = new FPS();
@@ -83,13 +78,8 @@ namespace MyGame
 
 
             coinFrames = coins.MakeList(6, 0);
-
             
-        
-           
-
-
-
+            
 
             _graphics.PreferredBackBufferWidth = background.Width;
             _graphics.PreferredBackBufferHeight = background.Height;
@@ -105,7 +95,6 @@ namespace MyGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             blockTexture = new Texture2D(GraphicsDevice, 1, 1);
             blockTexture.SetData(new[] { Color.White });
-            block = new Rectangle(200, 200, 70, 70);
             surface = new Rectangle(0, 720, 1000, 20);
 
 
@@ -147,16 +136,12 @@ namespace MyGame
                 
                 if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
                 {
-                    if (person.Move(currentFrame, 4, surface, block, blockPos))
+                    if (person.Move(currentFrame, 4, surface))
                     {
                         currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
-
-
-
                     }
                     else
                     {
-
                         currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
                     }
                 }
@@ -164,17 +149,8 @@ namespace MyGame
                 {
                     currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
                 }
-
-
-                Collision();
             }
 
-            
-
-           
-            
-                
-            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -188,15 +164,11 @@ namespace MyGame
             if (enterPressed)
             {
                 _spriteBatch.Draw(background, new Rectangle(0, 0, background.Width, background.Height), Color.White);
-                //_spriteBatch.Draw(background, background1.backgroundPos, background1.backgroundRec, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-                _spriteBatch.Draw(blockTexture, blockPos, block, blockColor, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-                // _spriteBatch.Draw(blokTexture, new Vector2(person.TrueHitbox.X,person.TrueHitbox.Y), person.TrueHitbox, Color.Orange, 0, new Vector2(0, 0), new Vector2(2, 2), SpriteEffects.None, 0);
-                // _spriteBatch.Draw(blokTexture, block, blockColor);
-                _spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
+               
+                //_spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
 
-                _spriteBatch.Draw(blockTexture, surface, Color.Black);
+                //_spriteBatch.Draw(blockTexture, surface, Color.Black);
 
-                // _spriteBatch.Draw(blokTexture,new Vector2(600,500), block2, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
 
                 foreach (var block in blocks)
                 {
@@ -205,8 +177,23 @@ namespace MyGame
 
                 person.Draw(currentFrame);
 
-                _spriteBatch.Draw(coin, new Vector2(0, 0), coinFrame, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), 0, 0);
+               
 
+                if(person.hitbox.TrueHitbox.Intersects(coinBox.TrueHitbox))
+                {
+                    won = true;
+                }
+
+                if (!won)
+                {
+                    //_spriteBatch.Draw(blockTexture, coinBox.TrueHitbox, Color.Orange);
+                    _spriteBatch.Draw(coin, new Vector2(0, 0), coinFrame, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), 0, 0);
+
+                   
+                }
+
+
+                DrawHealth();
                 if (person.lost)
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
@@ -228,16 +215,13 @@ namespace MyGame
 
 
 
-
-        public void Collision()
+        public void DrawHealth()
         {
-            if(person.hitbox.TrueHitbox.Intersects(block))
+            int x = 770; 
+            for(int i = 0; i < person.health; i++)
             {
-                blockColor = Color.Red;
-                
-            }else
-            {
-                blockColor = Color.Green;
+                _spriteBatch.Draw(heart, new Rectangle(x, 0, heart.Width, heart.Height), Color.White);
+                x += heart.Width;
             }
         }
     }
