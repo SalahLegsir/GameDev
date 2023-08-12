@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -44,7 +45,8 @@ namespace MyGame
             jumpspeed = 0;
             hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
 
-            _startPosition.X = 250;
+            _startPosition.X = 240;
+           
 
         }
 
@@ -121,7 +123,19 @@ namespace MyGame
             {
                 if (hitbox.TrueHitbox.Intersects(surface))
                 {
-                    lost = true;
+                    //lost = true;
+                    health--;
+
+                    jumpspeed = -200;
+
+                    if (jumpspeed < 0)
+                    {
+                        _startPosition.Y += jumpspeed;
+
+                        jumpspeed += 1;
+
+                    }
+
                 }
 
 
@@ -133,7 +147,7 @@ namespace MyGame
                 else
                 {
 
-                    lost = false;
+                    //lost = false;
                     _startPosition.Y += gravity;
 
                     if (gravity < 5)
@@ -143,6 +157,14 @@ namespace MyGame
 
                     isMoving = true;
                 }
+            }
+
+            if(health <= 0)
+            {
+                lost = true;
+            }else
+            {
+                lost = false;
             }
 
             hitbox.Update((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2);
@@ -199,6 +221,18 @@ namespace MyGame
             }
 
             return jumping;
+        }
+
+        public void Restart()
+        {
+            health = 3;
+            x = 0;
+            jumping = false;
+            jumpspeed = 0;
+            hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
+
+            _startPosition.X = 240;
+            _startPosition.Y = 0;
         }
     }
 }

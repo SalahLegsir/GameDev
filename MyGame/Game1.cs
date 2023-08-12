@@ -122,6 +122,11 @@ namespace MyGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
            
+
+            if(Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                person.Restart();
+            }
                
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
@@ -197,7 +202,7 @@ namespace MyGame
                 if (person.lost)
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
-                    gameOverScreen.Draw(gameOver);
+                    gameOverScreen.Draw(gameOver, spriteFont);
                 }
                 
             }else
