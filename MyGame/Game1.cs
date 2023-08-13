@@ -32,10 +32,12 @@ namespace MyGame
         private Rectangle surface;
         private Texture2D background;
         private Texture2D gameOver;
+        private Texture2D wonPic;
         private Rectangle block2 = new Rectangle(600, 500, 100, 30);
         private List<Block> blocks;
         private Texture2D coin;
         private Gameover gameOverScreen;
+        private Won wonScreen;
         private Main mainScreen;
         private bool enterPressed = false;
         private List<Rectangle> coinFrames = new List<Rectangle>();
@@ -67,6 +69,7 @@ namespace MyGame
             spriteFont = Content.Load<SpriteFont>("start");
             coin = Content.Load<Texture2D>("coin");
             heart = Content.Load<Texture2D>("heart48");
+            wonPic = Content.Load<Texture2D>("won");
 
 
             vector = new Vector2(0, 0);
@@ -100,6 +103,7 @@ namespace MyGame
 
             gameOverScreen = new Gameover(_spriteBatch);
             mainScreen = new Main(_spriteBatch);
+            wonScreen = new Won(_spriteBatch);
 
             blocks = new List<Block>() {
             new Block(100, 500, 100, 30,_spriteBatch),
@@ -126,6 +130,7 @@ namespace MyGame
             if(Keyboard.GetState().IsKeyDown(Keys.R))
             {
                 person.Restart();
+                won = false;
             }
                
 
@@ -169,7 +174,7 @@ namespace MyGame
             if (enterPressed)
             {
                 _spriteBatch.Draw(background, new Rectangle(0, 0, background.Width, background.Height), Color.White);
-               
+
                 //_spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
 
                 //_spriteBatch.Draw(blockTexture, surface, Color.Black);
@@ -182,23 +187,30 @@ namespace MyGame
 
                 person.Draw(currentFrame);
 
-               
 
-                if(person.hitbox.TrueHitbox.Intersects(coinBox.TrueHitbox))
+
+                if (person.hitbox.TrueHitbox.Intersects(coinBox.TrueHitbox))
                 {
                     won = true;
-                }
+                } 
+                
+                DrawHealth();
 
                 if (!won)
                 {
                     //_spriteBatch.Draw(blockTexture, coinBox.TrueHitbox, Color.Orange);
                     _spriteBatch.Draw(coin, new Vector2(0, 0), coinFrame, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), 0, 0);
 
-                   
+
+                }
+                else
+                {
+                    wonScreen.Draw(spriteFont, wonPic);
                 }
 
 
-                DrawHealth();
+
+               
                 if (person.lost)
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
