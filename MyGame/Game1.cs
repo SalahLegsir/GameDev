@@ -72,7 +72,7 @@ namespace MyGame
             wonPic = Content.Load<Texture2D>("won");
 
 
-            vector = new Vector2(0, 0);
+            vector = new Vector2(120, 450);
             fpsIdle = new FPS();
             fpsWalk = new FPS();
             fpsPowerShot = new FPS();
@@ -97,7 +97,7 @@ namespace MyGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             blockTexture = new Texture2D(GraphicsDevice, 1, 1);
-            blockTexture.SetData(new[] { Color.White });
+            blockTexture.SetData(new[] { Color.Gray });
             surface = new Rectangle(0, 720, 1000, 20);
 
 
@@ -106,11 +106,13 @@ namespace MyGame
             wonScreen = new Won(_spriteBatch);
 
             blocks = new List<Block>() {
-            new Block(100, 500, 100, 30,_spriteBatch),
-            new Block(200, 100, 100, 30,_spriteBatch),
-            new Block(600, 500, 100, 30,_spriteBatch),
-            new Block(600, 100, 100, 30,_spriteBatch)
-            
+            new Block(100, 600, 100, 30,_spriteBatch),
+            new Block(200, 200, 100, 30,_spriteBatch),
+            new Block(400, 600, 100, 30,_spriteBatch),
+            new Block(500, 200, 100, 30,_spriteBatch),
+            new Block(250, 450, 100, 30,_spriteBatch),
+            new Block(400, 350, 100, 30,_spriteBatch),
+
 
             };
 
@@ -142,6 +144,14 @@ namespace MyGame
 
             if(enterPressed)
             {
+                for (int i = 0; i < blocks.Count; i++)
+                {
+                    if(i != 0)
+                    {
+                        blocks[i].Move();
+                    }
+                    
+                }
                 coinFrame = coinFPS.Fps(gameTime, coinFrames);
                 
                 if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
