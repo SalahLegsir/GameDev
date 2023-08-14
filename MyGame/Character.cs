@@ -15,6 +15,7 @@ namespace MyGame
 {
     internal class Character
     {
+        private bool falling = false;
         private Texture2D _texture;
         public Vector2 _startPosition;
         private SpriteBatch _spritebatch;
@@ -143,6 +144,7 @@ namespace MyGame
                 {
                     _startPosition.Y += 0;
                     gravity = 1;
+                    falling = false;
                 }
                 else
                 {
@@ -156,6 +158,7 @@ namespace MyGame
                     }
 
                     isMoving = true;
+                    falling = true;
                 }
             }
 
@@ -194,10 +197,10 @@ namespace MyGame
 
             KeyboardState keyState = Keyboard.GetState();
 
-            bool falling = false;
+            
             if (jumping)
             {
-                if (jumpspeed < 0 && !falling)
+                if (jumpspeed < 0)
                 {
                     _startPosition.Y += jumpspeed;
 
@@ -207,16 +210,16 @@ namespace MyGame
                 else
                 {
                     jumping = false;
-                    falling = true;
+                    
                 }
             }
             else
             {
-                if (keyState.IsKeyDown(Keys.Space))
+                if (keyState.IsKeyDown(Keys.Space) && !falling)
                 {
                     jumping = true;
-                    falling = false;
-                    jumpspeed = -14;
+                    
+                    jumpspeed = -16;
                 }
             }
 
