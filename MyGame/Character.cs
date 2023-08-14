@@ -46,7 +46,7 @@ namespace MyGame
             jumpspeed = 0;
             hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
 
-            _startPosition.X = 240;
+            
            
 
         }
@@ -140,7 +140,7 @@ namespace MyGame
                 }
 
 
-                if (hitbox.TrueHitbox.Intersects(surface) || Blocks[0].Collision(hitbox.TrueHitbox) || Blocks[1].Collision(hitbox.TrueHitbox) || Blocks[2].Collision(hitbox.TrueHitbox) || Blocks[3].Collision(hitbox.TrueHitbox))
+                if (hitbox.TrueHitbox.Intersects(surface) || Blocks[0].Collision(hitbox.TrueHitbox) || Blocks[1].Collision(hitbox.TrueHitbox) || Blocks[2].Collision(hitbox.TrueHitbox) || Blocks[3].Collision(hitbox.TrueHitbox) || Blocks[4].Collision(hitbox.TrueHitbox) || Blocks[5].Collision(hitbox.TrueHitbox))
                 {
                     _startPosition.Y += 0;
                     gravity = 1;
@@ -234,8 +234,8 @@ namespace MyGame
             jumpspeed = 0;
             hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
 
-            _startPosition.X = 240;
-            _startPosition.Y = 0;
+            _startPosition.X = 120;
+            _startPosition.Y = 450;
         }
     }
 }
