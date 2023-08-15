@@ -49,7 +49,8 @@ namespace MyGame
         private bool won = false;
         private Enemy arrowEnemy;
         private Texture2D arrow;
-
+        private int currentLevel;
+        private List<Enemy> arrows;
 
 
         public Game1()
@@ -65,6 +66,9 @@ namespace MyGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            currentLevel = 1;
+
             background = Content.Load<Texture2D>("Background");
             gameOver = Content.Load<Texture2D>("GameOver");
             texture = Content.Load<Texture2D>("Fighter");
@@ -116,8 +120,17 @@ namespace MyGame
             new Block(500, 200, 100, 30,_spriteBatch),
             new Block(250, 450, 100, 30,_spriteBatch),
             new Block(400, 350, 100, 30,_spriteBatch),
+            };
 
-
+            arrows = new List<Enemy>()
+            {
+                new Enemy(_spriteBatch),
+                new Enemy(_spriteBatch),
+                new Enemy(_spriteBatch),
+                new Enemy(_spriteBatch),
+                new Enemy(_spriteBatch),
+                new Enemy(_spriteBatch),
+                new Enemy(_spriteBatch),
             };
 
             person = new Character(texture, vector, _spriteBatch);
@@ -189,6 +202,8 @@ namespace MyGame
 
                 //_spriteBatch.Draw(blockTexture, surface, Color.Black);
 
+                _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(830, 50), Color.Black);
+
 
                 foreach (var block in blocks)
                 {
@@ -215,13 +230,28 @@ namespace MyGame
                 }
                 else
                 {
-                    wonScreen.Draw(spriteFont, wonPic);
+                    wonScreen.Draw(spriteFont, wonPic, currentLevel);
+
+                    
+
+                    
 
                     if (Keyboard.GetState().IsKeyDown(Keys.R))
                     {
                         person.Restart();
                         won = false;
                     }
+
+                    if(currentLevel == 1)
+                    {
+                        if (Keyboard.GetState().IsKeyDown(Keys.N))
+                        {
+                            currentLevel = 2;
+                            person.Restart();
+                            won = false;
+                        }
+                    }
+                   
                 }
 
 
@@ -237,12 +267,29 @@ namespace MyGame
                         person.Restart();
                     }
                 }
+
+                if(currentLevel == 2)
+                {
+                    for(int i = 0; i < arrows.Count; i++)
+                    {
+                        arrows[i].Draw(arrow);
+                        arrows[i].Fall();
+
+                        /*if(i >= arrows.Count - 1)
+                        {
+                            i = 0;
+                        }*/
+
+
+                    }
+                    
+                }
                 
             }else
             {
                 mainScreen.Draw(background, spriteFont);
 
-                arrowEnemy.Draw(arrow);
+               
             }
 
             _spriteBatch.End();
