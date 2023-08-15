@@ -47,6 +47,8 @@ namespace MyGame
         private Hitbox coinBox = new Hitbox(15,28,175,170);
         private Texture2D heart;
         private bool won = false;
+        private Enemy arrowEnemy;
+        private Texture2D arrow;
 
 
 
@@ -70,6 +72,7 @@ namespace MyGame
             coin = Content.Load<Texture2D>("coin");
             heart = Content.Load<Texture2D>("heart48");
             wonPic = Content.Load<Texture2D>("won");
+            arrow = Content.Load<Texture2D>("arrow");
 
 
             vector = new Vector2(120, 450);
@@ -104,6 +107,7 @@ namespace MyGame
             gameOverScreen = new Gameover(_spriteBatch);
             mainScreen = new Main(_spriteBatch);
             wonScreen = new Won(_spriteBatch);
+            arrowEnemy = new Enemy(_spriteBatch);
 
             blocks = new List<Block>() {
             new Block(100, 600, 100, 30,_spriteBatch),
@@ -129,11 +133,7 @@ namespace MyGame
                 Exit();
            
 
-            if(Keyboard.GetState().IsKeyDown(Keys.R))
-            {
-                person.Restart();
-                won = false;
-            }
+            
                
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
@@ -216,6 +216,12 @@ namespace MyGame
                 else
                 {
                     wonScreen.Draw(spriteFont, wonPic);
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.R))
+                    {
+                        person.Restart();
+                        won = false;
+                    }
                 }
 
 
@@ -225,11 +231,18 @@ namespace MyGame
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
                     gameOverScreen.Draw(gameOver, spriteFont);
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.R))
+                    {
+                        person.Restart();
+                    }
                 }
                 
             }else
             {
                 mainScreen.Draw(background, spriteFont);
+
+                arrowEnemy.Draw(arrow);
             }
 
             _spriteBatch.End();
