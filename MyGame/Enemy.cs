@@ -14,7 +14,7 @@ namespace MyGame
     {
         public SpriteBatch _spriteBatch { get; set; }
         public Hitbox ArrowBox { get; set; }
-        public int speed { get; set; }
+        private int speed;
         
 
         private Random rdn = new Random();
@@ -26,14 +26,20 @@ namespace MyGame
             position = new Vector2(rdn.Next(60, 900), rdn.Next(-60, -40));
             //position = new Vector2(rdn.Next(60, 900), 20);
             ArrowBox = new Hitbox((int)position.X,(int)position.Y, 40, 30);
+            speed = rdn.Next(1,4);
         }
         public void Fall()
         {
             if(position.Y < 800)
             {
-                position.Y++;
+                position.Y += speed;
 
                 ArrowBox.Update((int)position.X, (int)position.Y);
+            }
+            else
+            {
+                position = new Vector2(rdn.Next(60, 900), rdn.Next(-60, -40));
+                speed = rdn.Next(1, 4);
             }
             
         }
