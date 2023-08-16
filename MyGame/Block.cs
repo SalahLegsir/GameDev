@@ -17,14 +17,15 @@ namespace MyGame
         private Vector2 posistion;
         private int speed = 1;
         private Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch { get; set; }
-        
 
+        public Hitbox hitBox { get; set; }
 
 
         public Block(int posX, int posY, int width, int height, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             block = new Rectangle(posX, posY, width, height);
             posistion = new Vector2(posX, posY);
+            hitBox = new Hitbox((int)posistion.X, (int)posistion.Y, width, 2);
             this.spriteBatch = spriteBatch;
         }
 
@@ -32,6 +33,7 @@ namespace MyGame
         {
             
             spriteBatch.Draw(blockTexture, posistion, block, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
+           
         }
 
         public void Move()
@@ -39,6 +41,7 @@ namespace MyGame
              
             posistion.X += speed;
             block.X = (int)posistion.X;
+            hitBox.Update((int)posistion.X, (int)posistion.Y);
             if(posistion.X <= 200)
             {
                 speed = 1;
@@ -53,7 +56,7 @@ namespace MyGame
 
         public  bool Collision(Rectangle hitbox)
         {
-            return block.Intersects(hitbox);
+            return hitBox.TrueHitbox.Intersects(hitbox);
         }
 
 

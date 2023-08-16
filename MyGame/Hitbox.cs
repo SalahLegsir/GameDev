@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace MyGame
             this._startPositionY = _startPositionY;
             
             TrueHitbox = new Rectangle(this._startPositionX, this._startPositionY, this.width, this.height);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D block )
+        {
+            spriteBatch.Draw(block, TrueHitbox, Color.Red);
         }
 
        

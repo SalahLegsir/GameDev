@@ -115,8 +115,8 @@ namespace MyGame
 
             blocks = new List<Block>() {
             new Block(100, 600, 100, 30,_spriteBatch),
-            new Block(200, 200, 100, 30,_spriteBatch),
-            new Block(400, 600, 100, 30,_spriteBatch),
+            new Block(200, 220, 100, 30,_spriteBatch),
+            new Block(400, 580, 100, 30,_spriteBatch),
             new Block(500, 200, 100, 30,_spriteBatch),
             new Block(250, 450, 100, 30,_spriteBatch),
             new Block(400, 350, 100, 30,_spriteBatch),
@@ -136,6 +136,7 @@ namespace MyGame
             person = new Character(texture, vector, _spriteBatch);
 
             person.Blocks = blocks;
+            person.arrows = arrows;
 
             // TODO: use this.Content to load your game content here
         }
@@ -209,7 +210,7 @@ namespace MyGame
                 {
                     block.Draw(blockTexture);
                 }
-
+                person.feetBox.Draw(_spriteBatch, blockTexture);
                 person.Draw(currentFrame);
 
 
@@ -220,6 +221,17 @@ namespace MyGame
                 } 
                 
                 DrawHealth();
+
+                if (currentLevel == 2)
+                {
+                    for (int i = 0; i < arrows.Count; i++)
+                    {
+                        arrows[i].ArrowBox.Draw(_spriteBatch, blockTexture);
+                        arrows[i].Draw(arrow);
+                        arrows[i].Fall();
+                    }
+
+                }
 
                 if (!won)
                 {
@@ -268,22 +280,7 @@ namespace MyGame
                     }
                 }
 
-                if(currentLevel == 2)
-                {
-                    for(int i = 0; i < arrows.Count; i++)
-                    {
-                        arrows[i].Draw(arrow);
-                        arrows[i].Fall();
-
-                        /*if(i >= arrows.Count - 1)
-                        {
-                            i = 0;
-                        }*/
-
-
-                    }
-                    
-                }
+                
                 
             }else
             {

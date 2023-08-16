@@ -23,6 +23,7 @@ namespace MyGame
         private SpriteEffects effect;
 
         public Hitbox hitbox { get; set; }
+        public Hitbox feetBox { get; set; }
         public int x { get; set; }
 
         public bool jumping;
@@ -32,6 +33,7 @@ namespace MyGame
         private int gravity = 1;
         public bool lost = false;
         public int health = 3;
+        public List<Enemy> arrows { get; set; }
 
 
 
@@ -45,9 +47,9 @@ namespace MyGame
             jumping = false;
             jumpspeed = 0;
             hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
+            feetBox = new Hitbox((int)_startPosition.X + 50, (int)_startPosition.Y + 103, 20, 5);
 
-            
-           
+
 
         }
 
@@ -139,10 +141,28 @@ namespace MyGame
 
                 }
 
-
-                if (hitbox.TrueHitbox.Intersects(surface) || Blocks[0].Collision(hitbox.TrueHitbox) || Blocks[1].Collision(hitbox.TrueHitbox) || Blocks[2].Collision(hitbox.TrueHitbox) || Blocks[3].Collision(hitbox.TrueHitbox) || Blocks[4].Collision(hitbox.TrueHitbox) || Blocks[5].Collision(hitbox.TrueHitbox))
+                foreach (var arrow in arrows)
                 {
-                    _startPosition.Y += 0;
+                    if(arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox))
+                    {
+                        health--;
+
+                        jumpspeed = -200;
+
+                        if (jumpspeed < 0)
+                        {
+                            _startPosition.Y += jumpspeed;
+
+                            jumpspeed += 1;
+
+                        }
+                    }
+                }
+
+
+                if (hitbox.TrueHitbox.Intersects(surface) || Blocks[0].Collision(feetBox.TrueHitbox) || Blocks[1].Collision(feetBox.TrueHitbox) || Blocks[2].Collision(feetBox.TrueHitbox) || Blocks[3].Collision(feetBox.TrueHitbox) || Blocks[4].Collision(feetBox.TrueHitbox) || Blocks[5].Collision(feetBox.TrueHitbox))
+                {
+                    //_startPosition.Y += 0;
                     gravity = 1;
                     falling = false;
                 }
@@ -171,6 +191,8 @@ namespace MyGame
             }
 
             hitbox.Update((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2);
+            feetBox.Update((int)_startPosition.X + 50, (int)_startPosition.Y + 103);
+
 
             Jump();
             return isMoving;

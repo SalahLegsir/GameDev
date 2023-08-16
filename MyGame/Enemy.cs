@@ -25,7 +25,7 @@ namespace MyGame
             _spriteBatch = spriteBatch;
             position = new Vector2(rdn.Next(60, 900), rdn.Next(-60, -40));
             //position = new Vector2(rdn.Next(60, 900), 20);
-            ArrowBox = new Hitbox((int)position.X,(int)position.Y, 40, 30);
+            ArrowBox = new Hitbox((int)position.X - 25 ,(int)position.Y + 24, 18, 15);
             speed = rdn.Next(1,4);
         }
         public void Fall()
@@ -34,7 +34,7 @@ namespace MyGame
             {
                 position.Y += speed;
 
-                ArrowBox.Update((int)position.X, (int)position.Y);
+                ArrowBox.Update((int)position.X - 25, (int)position.Y + 24);
             }
             else
             {
