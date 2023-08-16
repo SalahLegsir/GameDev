@@ -22,10 +22,13 @@ namespace MyGame
            
 
             _spriteBatch.Draw(won, new Rectangle(-60, -50, 1080, 1000),Color.White);
-            _spriteBatch.DrawString(spriteFont, "Press 'R' to restart", new Vector2(350, 550), Color.White);
+            _spriteBatch.DrawString(spriteFont, "Press 'R' to restart level", new Vector2(350, 550), Color.White);
             if(level == 1)
             {
-                _spriteBatch.DrawString(spriteFont, "Press 'N' to go too the next level", new Vector2(350, 600), Color.White);
+                _spriteBatch.DrawString(spriteFont, "Press 'N' to go too the next level", new Vector2(300, 600), Color.White);
+            }else
+            {
+                _spriteBatch.DrawString(spriteFont, "Press 'H' to start over", new Vector2(300, 600), Color.White);
             }
 
 

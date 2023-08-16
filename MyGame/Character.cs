@@ -34,6 +34,7 @@ namespace MyGame
         public bool lost = false;
         public int health = 3;
         public List<Enemy> arrows { get; set; }
+        public int coins = 0;
 
 
 
@@ -251,6 +252,7 @@ namespace MyGame
         public void Restart()
         {
             health = 3;
+            coins = 0;
             x = 0;
             jumping = false;
             jumpspeed = 0;

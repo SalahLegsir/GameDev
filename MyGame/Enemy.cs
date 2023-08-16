@@ -40,8 +40,10 @@ namespace MyGame
             {
                 position = new Vector2(rdn.Next(60, 900), rdn.Next(-60, -40));
                 speed = rdn.Next(1, 4);
+                ArrowBox = new Hitbox((int)position.X - 25, (int)position.Y + 24, 18, 15);
+
             }
-            
+
         }
         public void Draw(Texture2D arrow)
         {

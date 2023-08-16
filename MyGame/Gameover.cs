@@ -23,7 +23,7 @@ namespace MyGame
         {
             
             _spriteBatch.Draw(gameOver, new Rectangle(250, 300, gameOver.Width, gameOver.Height), Color.White);
-            _spriteBatch.DrawString(spriteFont, "Press 'R' to restart", new Vector2(350,500), Color.White);
+            _spriteBatch.DrawString(spriteFont, "Press 'R' to restart level", new Vector2(350,500), Color.White);
 
 
         }
