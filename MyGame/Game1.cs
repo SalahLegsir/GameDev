@@ -5,6 +5,7 @@ using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
 using SharpDX.XAudio2;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.PerformanceData;
 using System.Drawing;
 using System.Linq.Expressions;
@@ -51,7 +52,7 @@ namespace MyGame
         private Texture2D arrow;
         private int currentLevel;
         private List<Enemy> arrows;
-
+        private List<Collectable> collectCoins;
 
         public Game1()
         {
@@ -133,6 +134,18 @@ namespace MyGame
                 new Enemy(_spriteBatch),
             };
 
+            collectCoins = new List<Collectable>()
+            {
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+                new Collectable(coin,_spriteBatch),
+            };
+
             person = new Character(texture, vector, _spriteBatch);
 
             person.Blocks = blocks;
@@ -204,13 +217,32 @@ namespace MyGame
                 //_spriteBatch.Draw(blockTexture, surface, Color.Black);
 
                 _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(830, 50), Color.Black);
+                _spriteBatch.DrawString(spriteFont, $"{person.coins}", new Vector2(810, 50), Color.Black);
 
 
                 foreach (var block in blocks)
                 {
                     block.Draw(blockTexture);
                 }
-                person.feetBox.Draw(_spriteBatch, blockTexture);
+
+                foreach(var coin in collectCoins)
+                {
+                    
+                    if(person.hitbox.TrueHitbox.Intersects(coin.hitBox.TrueHitbox))
+                    {
+                        coin.collected = true;
+                        person.coins++;
+                    }
+
+                    if(!coin.collected)
+                    {
+                        //coin.hitBox.Draw(_spriteBatch, blockTexture);
+                        coin.Draw(coinFrame);
+                    }
+
+                }
+
+                //person.feetBox.Draw(_spriteBatch, blockTexture);
                 person.Draw(currentFrame);
 
 
@@ -226,7 +258,7 @@ namespace MyGame
                 {
                     for (int i = 0; i < arrows.Count; i++)
                     {
-                        arrows[i].ArrowBox.Draw(_spriteBatch, blockTexture);
+                        //arrows[i].ArrowBox.Draw(_spriteBatch, blockTexture);
                         arrows[i].Draw(arrow);
                         arrows[i].Fall();
                     }
@@ -250,7 +282,7 @@ namespace MyGame
 
                     if (Keyboard.GetState().IsKeyDown(Keys.R))
                     {
-                        person.Restart();
+                        ResetLevel();
                         won = false;
                     }
 
@@ -259,8 +291,17 @@ namespace MyGame
                         if (Keyboard.GetState().IsKeyDown(Keys.N))
                         {
                             currentLevel = 2;
-                            person.Restart();
+                            ResetLevel();
                             won = false;
+                        }
+                    }else
+                    {
+                        if(Keyboard.GetState().IsKeyDown(Keys.H))
+                        {
+                            currentLevel = 1;
+                            ResetLevel();
+                            won = false;
+                            enterPressed = false;
                         }
                     }
                    
@@ -276,7 +317,7 @@ namespace MyGame
 
                     if (Keyboard.GetState().IsKeyDown(Keys.R))
                     {
-                        person.Restart();
+                        ResetLevel();
                     }
                 }
 
@@ -307,6 +348,15 @@ namespace MyGame
                 _spriteBatch.Draw(heart, new Rectangle(x, 0, heart.Width, heart.Height), Color.White);
                 x += heart.Width;
             }
+        }
+
+        public void ResetLevel()
+        {
+            foreach (var coin in collectCoins)
+            {
+                coin.Reset();
+            }
+            person.Restart();
         }
     }
 }
