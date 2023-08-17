@@ -110,7 +110,7 @@ namespace MyGame
             blockTexture.SetData(new[] { Color.Gray });
 
             dataBlock = new Texture2D(GraphicsDevice, 1, 1);
-            dataBlock.SetData(new[] { Color.White });
+            dataBlock.SetData(new[] { Color.BurlyWood });
 
             surface = new Rectangle(0, 720, 1000, 20);
 
@@ -222,11 +222,11 @@ namespace MyGame
 
                 //_spriteBatch.Draw(blockTexture, surface, Color.Black);
 
-                _spriteBatch.Draw(dataBlock, new Rectangle(750,10,170,80), Color.White);
-                _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(820, 60), Color.Black);
-                _spriteBatch.DrawString(spriteFont, $"X{person.coins}", new Vector2(780, 60), Color.Black);
+                _spriteBatch.Draw(dataBlock, new Rectangle(740,10,180,90), Color.White);
+                _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(810, 70), Color.Black);
+                _spriteBatch.DrawString(spriteFont, $"X{person.coins}", new Vector2(770, 70), Color.Black);
 
-                _spriteBatch.Draw(coin, new Vector2(750,55), coinFrame, Color.White, 0, new Vector2(0, 0), 0.15f, SpriteEffects.None, 0);
+                _spriteBatch.Draw(coin, new Vector2(740,65), coinFrame, Color.White, 0, new Vector2(0, 0), 0.15f, SpriteEffects.None, 0);
 
 
 
@@ -356,7 +356,7 @@ namespace MyGame
             int x = 770; 
             for(int i = 0; i < person.health; i++)
             {
-                _spriteBatch.Draw(heart, new Rectangle(x, 10, heart.Width, heart.Height), Color.White);
+                _spriteBatch.Draw(heart, new Rectangle(x - 10, 20, heart.Width, heart.Height), Color.White);
                 x += heart.Width;
             }
         }
