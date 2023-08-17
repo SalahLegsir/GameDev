@@ -252,6 +252,7 @@ namespace MyGame
         public void Restart()
         {
             health = 3;
+            lost = false;
             coins = 0;
             x = 0;
             jumping = false;

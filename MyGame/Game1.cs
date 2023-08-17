@@ -189,14 +189,18 @@ namespace MyGame
                 
                 if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
                 {
-                    if (person.Move(currentFrame, 4, surface))
+                    if(!won && !person.lost)
                     {
-                        currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
+                        if (person.Move(currentFrame, 4, surface))
+                        {
+                            currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
+                        }
+                        else
+                        {
+                            currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
+                        }
                     }
-                    else
-                    {
-                        currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
-                    }
+                   
                 }
                 else
                 {
