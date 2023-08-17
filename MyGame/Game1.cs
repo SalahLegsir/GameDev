@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
 using SharpDX.XAudio2;
@@ -53,6 +54,7 @@ namespace MyGame
         private int currentLevel;
         private List<Enemy> arrows;
         private List<Collectable> collectCoins;
+        private Texture2D dataBlock;
 
         public Game1()
         {
@@ -106,6 +108,10 @@ namespace MyGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             blockTexture = new Texture2D(GraphicsDevice, 1, 1);
             blockTexture.SetData(new[] { Color.Gray });
+
+            dataBlock = new Texture2D(GraphicsDevice, 1, 1);
+            dataBlock.SetData(new[] { Color.White });
+
             surface = new Rectangle(0, 720, 1000, 20);
 
 
@@ -216,8 +222,12 @@ namespace MyGame
 
                 //_spriteBatch.Draw(blockTexture, surface, Color.Black);
 
-                _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(830, 50), Color.Black);
-                _spriteBatch.DrawString(spriteFont, $"{person.coins}", new Vector2(810, 50), Color.Black);
+                _spriteBatch.Draw(dataBlock, new Rectangle(750,10,170,80), Color.White);
+                _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(820, 60), Color.Black);
+                _spriteBatch.DrawString(spriteFont, $"X{person.coins}", new Vector2(780, 60), Color.Black);
+
+                _spriteBatch.Draw(coin, new Vector2(750,55), coinFrame, Color.White, 0, new Vector2(0, 0), 0.15f, SpriteEffects.None, 0);
+
 
 
                 foreach (var block in blocks)
@@ -228,7 +238,7 @@ namespace MyGame
                 foreach(var coin in collectCoins)
                 {
                     
-                    if(person.hitbox.TrueHitbox.Intersects(coin.hitBox.TrueHitbox))
+                    if(person.hitbox.TrueHitbox.Intersects(coin.hitBox.TrueHitbox) && !coin.collected)
                     {
                         coin.collected = true;
                         person.coins++;
@@ -239,8 +249,9 @@ namespace MyGame
                         //coin.hitBox.Draw(_spriteBatch, blockTexture);
                         coin.Draw(coinFrame);
                     }
-
                 }
+
+
 
                 //person.feetBox.Draw(_spriteBatch, blockTexture);
                 person.Draw(currentFrame);
@@ -345,7 +356,7 @@ namespace MyGame
             int x = 770; 
             for(int i = 0; i < person.health; i++)
             {
-                _spriteBatch.Draw(heart, new Rectangle(x, 0, heart.Width, heart.Height), Color.White);
+                _spriteBatch.Draw(heart, new Rectangle(x, 10, heart.Width, heart.Height), Color.White);
                 x += heart.Width;
             }
         }

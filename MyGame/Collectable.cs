@@ -41,8 +41,8 @@ namespace MyGame
         public void Reset()
         {
             collected = false;
-            hitBox = new Hitbox((int)_startPosition.X + 2, (int)_startPosition.Y + 5, 35, 34);
             _startPosition = new Vector2(rdn.Next(60, 900), rdn.Next(180, 581));
+            hitBox = new Hitbox((int)_startPosition.X + 2, (int)_startPosition.Y + 5, 35, 34);
 
         }
     }
