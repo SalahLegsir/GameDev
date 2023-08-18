@@ -87,6 +87,7 @@ namespace MyGame
             restartButton = Content.Load<Texture2D>("RestartButton");
 
 
+
             vector = new Vector2(120, 450);
             fpsIdle = new FPS();
             fpsWalk = new FPS();
@@ -120,7 +121,7 @@ namespace MyGame
             surface = new Rectangle(0, 720, 1000, 20);
 
 
-            gameOverScreen = new Gameover(_spriteBatch);
+            gameOverScreen = new Gameover(_spriteBatch, restartButton);
             mainScreen = new Main(_spriteBatch, startButton);
             wonScreen = new Won(_spriteBatch,restartButton);
             arrowEnemy = new Enemy(_spriteBatch);
@@ -208,7 +209,17 @@ namespace MyGame
                     currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
                 }
 
-                wonScreen.RestartButton.Update();
+                if(won)
+                {
+                    wonScreen.RestartButton.Update();
+                }
+                
+
+                if(person.lost)
+                {
+                    gameOverScreen.RestartButton.Update();
+                }
+                
             }else
             {
                 mainScreen.StartButton.Update();
@@ -338,9 +349,10 @@ namespace MyGame
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
                     gameOverScreen.Draw(gameOver, spriteFont);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.R))
+                    if (gameOverScreen.RestartButton.pressed)
                     {
                         ResetLevel();
+                        gameOverScreen.RestartButton.pressed = false;
                     }
                 }
 

@@ -13,19 +13,20 @@ namespace MyGame
     internal class Gameover
     {
         private SpriteBatch _spriteBatch;
+        public Button RestartButton { get; set; }
 
-        public Gameover(SpriteBatch spriteBatch)
+        public Gameover(SpriteBatch spriteBatch, Texture2D restartTexture)
         {
             _spriteBatch = spriteBatch;
+            RestartButton = new Button(restartTexture, new Vector2(350, 500), new Hitbox(350, 500, restartTexture.Width, restartTexture.Height));
+
+
         }
 
         public void Draw(Texture2D gameOver, SpriteFont spriteFont)
         {
-            
             _spriteBatch.Draw(gameOver, new Rectangle(250, 300, gameOver.Width, gameOver.Height), Color.White);
-            _spriteBatch.DrawString(spriteFont, "Press 'R' to restart level", new Vector2(350,500), Color.White);
-
-
+            RestartButton.Draw(_spriteBatch);
         }
     }
 }
