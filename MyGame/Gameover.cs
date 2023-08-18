@@ -18,7 +18,7 @@ namespace MyGame
         public Gameover(SpriteBatch spriteBatch, Texture2D restartTexture)
         {
             _spriteBatch = spriteBatch;
-            RestartButton = new Button(restartTexture, new Vector2(350, 500), new Hitbox(350, 500, restartTexture.Width, restartTexture.Height));
+            RestartButton = new Button(restartTexture, new Vector2(425, 500), new Hitbox(425, 500, restartTexture.Width, restartTexture.Height));
 
 
         }
