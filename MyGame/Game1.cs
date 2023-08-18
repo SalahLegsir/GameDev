@@ -41,7 +41,7 @@ namespace MyGame
         private Gameover gameOverScreen;
         private Won wonScreen;
         private Main mainScreen;
-        private bool enterPressed = false;
+        
         private List<Rectangle> coinFrames = new List<Rectangle>();
         private Sprites coins = new Sprites(200, 200);
         private FPS coinFPS = new FPS();
@@ -55,7 +55,7 @@ namespace MyGame
         private List<Enemy> arrows;
         private List<Collectable> collectCoins;
         private Texture2D dataBlock;
-
+        private Texture2D startButton;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -80,6 +80,7 @@ namespace MyGame
             heart = Content.Load<Texture2D>("heart48");
             wonPic = Content.Load<Texture2D>("won");
             arrow = Content.Load<Texture2D>("arrow");
+            startButton = Content.Load<Texture2D>("StartButton");
 
 
             vector = new Vector2(120, 450);
@@ -116,7 +117,7 @@ namespace MyGame
 
 
             gameOverScreen = new Gameover(_spriteBatch);
-            mainScreen = new Main(_spriteBatch);
+            mainScreen = new Main(_spriteBatch, startButton);
             wonScreen = new Won(_spriteBatch);
             arrowEnemy = new Enemy(_spriteBatch);
 
@@ -167,15 +168,11 @@ namespace MyGame
            
 
             
-               
+              
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {
-                enterPressed = true;
+            
 
-            }
-
-            if(enterPressed)
+            if(mainScreen.StartButton.pressed)
             {
                 for (int i = 0; i < blocks.Count; i++)
                 {
@@ -191,7 +188,7 @@ namespace MyGame
                 {
                     if(!won && !person.lost)
                     {
-                        if (person.Move(currentFrame, 4, surface))
+                        if (person.Move(currentFrame, 4, surface, currentLevel))
                         {
                             currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
                         }
@@ -206,6 +203,9 @@ namespace MyGame
                 {
                     currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
                 }
+            }else
+            {
+                mainScreen.StartButton.Update();
             }
 
             // TODO: Add your update logic here
@@ -218,7 +218,7 @@ namespace MyGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
-            if (enterPressed)
+            if (mainScreen.StartButton.pressed)
             {
                 _spriteBatch.Draw(background, new Rectangle(0, 0, background.Width, background.Height), Color.White);
 
@@ -316,7 +316,7 @@ namespace MyGame
                             currentLevel = 1;
                             ResetLevel();
                             won = false;
-                            enterPressed = false;
+                            mainScreen.StartButton.pressed = false;
                         }
                     }
                    
@@ -340,7 +340,9 @@ namespace MyGame
                 
             }else
             {
+                
                 mainScreen.Draw(background, spriteFont);
+                
 
                
             }
