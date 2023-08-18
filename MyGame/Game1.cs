@@ -56,6 +56,9 @@ namespace MyGame
         private List<Collectable> collectCoins;
         private Texture2D dataBlock;
         private Texture2D startButton;
+        private Texture2D restartButton;
+        private Texture2D homeButton;
+        private Texture2D nextButton;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -81,6 +84,7 @@ namespace MyGame
             wonPic = Content.Load<Texture2D>("won");
             arrow = Content.Load<Texture2D>("arrow");
             startButton = Content.Load<Texture2D>("StartButton");
+            restartButton = Content.Load<Texture2D>("RestartButton");
 
 
             vector = new Vector2(120, 450);
@@ -118,7 +122,7 @@ namespace MyGame
 
             gameOverScreen = new Gameover(_spriteBatch);
             mainScreen = new Main(_spriteBatch, startButton);
-            wonScreen = new Won(_spriteBatch);
+            wonScreen = new Won(_spriteBatch,restartButton);
             arrowEnemy = new Enemy(_spriteBatch);
 
             blocks = new List<Block>() {
@@ -203,6 +207,8 @@ namespace MyGame
                 {
                     currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
                 }
+
+                wonScreen.RestartButton.Update();
             }else
             {
                 mainScreen.StartButton.Update();
@@ -295,10 +301,12 @@ namespace MyGame
 
                     
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.R))
+                    if (wonScreen.RestartButton.pressed)
                     {
                         ResetLevel();
                         won = false;
+                        wonScreen.RestartButton.pressed = false;
+
                     }
 
                     if(currentLevel == 1)
