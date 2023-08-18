@@ -85,6 +85,8 @@ namespace MyGame
             arrow = Content.Load<Texture2D>("arrow");
             startButton = Content.Load<Texture2D>("StartButton");
             restartButton = Content.Load<Texture2D>("RestartButton");
+            nextButton = Content.Load<Texture2D>("NextButton");
+            homeButton = Content.Load<Texture2D>("HomeButton");
 
 
 
@@ -123,7 +125,7 @@ namespace MyGame
 
             gameOverScreen = new Gameover(_spriteBatch, restartButton);
             mainScreen = new Main(_spriteBatch, startButton);
-            wonScreen = new Won(_spriteBatch,restartButton);
+            wonScreen = new Won(_spriteBatch,restartButton, homeButton,nextButton);
             arrowEnemy = new Enemy(_spriteBatch);
 
             blocks = new List<Block>() {
@@ -212,6 +214,15 @@ namespace MyGame
                 if(won)
                 {
                     wonScreen.RestartButton.Update();
+
+                    if(currentLevel == 1)
+                    {
+                        wonScreen.NextButton.Update();
+                    }
+                    else
+                    {
+                        wonScreen.HomeButton.Update();
+                    }
                 }
                 
 
@@ -322,20 +333,22 @@ namespace MyGame
 
                     if(currentLevel == 1)
                     {
-                        if (Keyboard.GetState().IsKeyDown(Keys.N))
+                        if (wonScreen.NextButton.pressed)
                         {
                             currentLevel = 2;
                             ResetLevel();
                             won = false;
+                            wonScreen.NextButton.pressed = false;
                         }
                     }else
                     {
-                        if(Keyboard.GetState().IsKeyDown(Keys.H))
+                        if(wonScreen.HomeButton.pressed)
                         {
                             currentLevel = 1;
                             ResetLevel();
                             won = false;
                             mainScreen.StartButton.pressed = false;
+                            wonScreen.HomeButton.pressed = false;
                         }
                     }
                    

@@ -16,10 +16,13 @@ namespace MyGame
         public Button HomeButton { get; set; }
 
 
-        public Won(SpriteBatch spriteBatch, Texture2D restartTexture/*, Texture2D homeTexture, Texture2D nextTexture*/)
+        public Won(SpriteBatch spriteBatch, Texture2D restartTexture, Texture2D homeTexture, Texture2D nextTexture)
         {
             _spriteBatch = spriteBatch;
             RestartButton = new Button(restartTexture, new Vector2(350, 550), new Hitbox(350, 550, restartTexture.Width, restartTexture.Height));
+            NextButton = new Button(nextTexture, new Vector2(427, 550), new Hitbox(427, 550, nextTexture.Width, nextTexture.Height));
+            HomeButton = new Button(homeTexture, new Vector2(427, 550), new Hitbox(427, 550, homeTexture.Width, homeTexture.Height));
+
         }
 
         public void Draw(SpriteFont spriteFont, Texture2D won, int level)
@@ -30,10 +33,10 @@ namespace MyGame
             RestartButton.Draw(_spriteBatch);
             if(level == 1)
             {
-                _spriteBatch.DrawString(spriteFont, "Press 'N' to go too the next level", new Vector2(300, 600), Color.White);
+                NextButton.Draw(_spriteBatch);
             }else
             {
-                _spriteBatch.DrawString(spriteFont, "Press 'H' to start over", new Vector2(300, 600), Color.White);
+                HomeButton.Draw(_spriteBatch);
             }
 
 
