@@ -59,7 +59,7 @@ namespace MyGame
             _spritebatch.Draw(_texture, _startPosition, _currentFrame, Color.White, 0, new Vector2(0, 0), new Vector2(2, 2), effect, 0);
         }
 
-        public bool Move(Rectangle _currentFrame, int speed, Rectangle surface)
+        public bool Move(Rectangle _currentFrame, int speed, Rectangle surface, int level)
         {
 
 
@@ -142,20 +142,23 @@ namespace MyGame
 
                 }
 
-                foreach (var arrow in arrows)
+                if(level == 2)
                 {
-                    if(arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox))
+                    foreach (var arrow in arrows)
                     {
-                        health--;
-
-                        jumpspeed = -200;
-
-                        if (jumpspeed < 0)
+                        if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox))
                         {
-                            _startPosition.Y += jumpspeed;
+                            health--;
 
-                            jumpspeed += 1;
+                            jumpspeed = -200;
 
+                            if (jumpspeed < 0)
+                            {
+                                _startPosition.Y += jumpspeed;
+
+                                jumpspeed += 1;
+
+                            }
                         }
                     }
                 }
@@ -257,10 +260,12 @@ namespace MyGame
             x = 0;
             jumping = false;
             jumpspeed = 0;
-            hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
 
             _startPosition.X = 120;
             _startPosition.Y = 450;
+
+            hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
+
         }
     }
 }
