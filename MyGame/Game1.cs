@@ -81,7 +81,7 @@ namespace MyGame
             spriteFont = Content.Load<SpriteFont>("start");
             coin = Content.Load<Texture2D>("coin");
             heart = Content.Load<Texture2D>("heart48");
-            wonPic = Content.Load<Texture2D>("won");
+            wonPic = Content.Load<Texture2D>("win");
             arrow = Content.Load<Texture2D>("arrow");
             startButton = Content.Load<Texture2D>("StartButton");
             restartButton = Content.Load<Texture2D>("RestartButton");
@@ -317,6 +317,7 @@ namespace MyGame
                 }
                 else
                 {
+                    _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
                     wonScreen.Draw(spriteFont, wonPic, currentLevel);
 
                     

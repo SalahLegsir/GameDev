@@ -19,9 +19,9 @@ namespace MyGame
         public Won(SpriteBatch spriteBatch, Texture2D restartTexture, Texture2D homeTexture, Texture2D nextTexture)
         {
             _spriteBatch = spriteBatch;
-            RestartButton = new Button(restartTexture, new Vector2(350, 550), new Hitbox(350, 550, restartTexture.Width, restartTexture.Height));
-            NextButton = new Button(nextTexture, new Vector2(427, 550), new Hitbox(427, 550, nextTexture.Width, nextTexture.Height));
-            HomeButton = new Button(homeTexture, new Vector2(427, 550), new Hitbox(427, 550, homeTexture.Width, homeTexture.Height));
+            RestartButton = new Button(restartTexture, new Vector2(340, 500), new Hitbox(320, 500, restartTexture.Width, restartTexture.Height));
+            NextButton = new Button(nextTexture, new Vector2(455, 500), new Hitbox(455, 500, nextTexture.Width, nextTexture.Height));
+            HomeButton = new Button(homeTexture, new Vector2(455, 500), new Hitbox(455, 500, homeTexture.Width, homeTexture.Height));
 
         }
 
@@ -29,7 +29,7 @@ namespace MyGame
         {
            
 
-            _spriteBatch.Draw(won, new Rectangle(-60, -50, 1080, 1000),Color.White);
+            _spriteBatch.Draw(won, new Rectangle(100, 340, won.Width * 2, won.Height * 2),Color.White);
             RestartButton.Draw(_spriteBatch);
             if(level == 1)
             {
