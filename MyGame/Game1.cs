@@ -80,21 +80,21 @@ namespace MyGame
 
             currentLevel = 1;
 
-            background = Content.Load<Texture2D>("Background");
-            gameOver = Content.Load<Texture2D>("GameOver");
-            texture = Content.Load<Texture2D>("Fighter");
-            spriteFont = Content.Load<SpriteFont>("start");
-            coin = Content.Load<Texture2D>("coin");
-            heart = Content.Load<Texture2D>("heart48");
-            wonPic = Content.Load<Texture2D>("win");
-            arrow = Content.Load<Texture2D>("arrow");
-            startButton = Content.Load<Texture2D>("StartButton");
-            restartButton = Content.Load<Texture2D>("RestartButton");
-            nextButton = Content.Load<Texture2D>("NextButton");
-            homeButton = Content.Load<Texture2D>("HomeButton");
-            block = Content.Load<Texture2D>("Block");
-            pauseButton = Content.Load<Texture2D>("PauseButton");
-
+            background = Content.Load<Texture2D>("Screens/Start/Background");
+            gameOver = Content.Load<Texture2D>("Screens/Gameover/GameOver");
+            texture = Content.Load<Texture2D>("Screens/Game/Fighter");
+            spriteFont = Content.Load<SpriteFont>("Fonts/start");
+            coin = Content.Load<Texture2D>("Screens/Game/coin");
+            heart = Content.Load<Texture2D>("Screens/Game/heart48");
+            wonPic = Content.Load<Texture2D>("Screens/Won/win");
+            arrow = Content.Load<Texture2D>("Screens/Game/arrow");
+            startButton = Content.Load<Texture2D>("Buttons/StartButton");
+            restartButton = Content.Load<Texture2D>("Buttons/RestartButton");
+            nextButton = Content.Load<Texture2D>("Buttons/NextButton");
+            homeButton = Content.Load<Texture2D>("Buttons/HomeButton");
+            block = Content.Load<Texture2D>("Screens/Game/Block");
+            pauseButton = Content.Load<Texture2D>("Buttons/PauseButton");
+            
 
 
             vector = new Vector2(120, 450);
