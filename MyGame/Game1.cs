@@ -59,6 +59,7 @@ namespace MyGame
         private Texture2D restartButton;
         private Texture2D homeButton;
         private Texture2D nextButton;
+        private Texture2D block;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -87,6 +88,7 @@ namespace MyGame
             restartButton = Content.Load<Texture2D>("RestartButton");
             nextButton = Content.Load<Texture2D>("NextButton");
             homeButton = Content.Load<Texture2D>("HomeButton");
+            block = Content.Load<Texture2D>("Block");
 
 
 
@@ -264,7 +266,7 @@ namespace MyGame
 
                 foreach (var block in blocks)
                 {
-                    block.Draw(blockTexture);
+                    block.Draw(this.block);
                 }
 
                 foreach(var coin in collectCoins)

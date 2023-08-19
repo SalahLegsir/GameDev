@@ -23,7 +23,7 @@ namespace MyGame
 
         public Block(int posX, int posY, int width, int height, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            block = new Rectangle(posX, posY, width, height);
+            block = new Rectangle(0, 0, width, height);
             posistion = new Vector2(posX, posY);
             hitBox = new Hitbox((int)posistion.X, (int)posistion.Y, width, 2);
             this.spriteBatch = spriteBatch;
@@ -40,7 +40,7 @@ namespace MyGame
         {
              
             posistion.X += speed;
-            block.X = (int)posistion.X;
+            
             hitBox.Update((int)posistion.X, (int)posistion.Y);
             if(posistion.X <= 200)
             {
