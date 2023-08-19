@@ -60,6 +60,10 @@ namespace MyGame
         private Texture2D homeButton;
         private Texture2D nextButton;
         private Texture2D block;
+        private bool paused;
+        private Texture2D pauseButton;
+
+        private KeyboardState lastState;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -89,6 +93,7 @@ namespace MyGame
             nextButton = Content.Load<Texture2D>("NextButton");
             homeButton = Content.Load<Texture2D>("HomeButton");
             block = Content.Load<Texture2D>("Block");
+            pauseButton = Content.Load<Texture2D>("PauseButton");
 
 
 
@@ -98,6 +103,7 @@ namespace MyGame
             fpsPowerShot = new FPS();
             sprite = new Sprites(64, 64);
             movements = sprite.MakeDictionary();
+            paused = false;
 
 
             coinFrames = coins.MakeList(6, 0);
@@ -172,75 +178,87 @@ namespace MyGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Escape) && lastState.IsKeyUp(Keys.Escape))
+            {
+                paused = !paused;
+            }
+
+
+            lastState = state;
            
 
             
               
-
             
-
-            if(mainScreen.StartButton.pressed)
-            {
-                for (int i = 0; i < blocks.Count; i++)
+                if (mainScreen.StartButton.pressed)
                 {
-                    if(i != 0)
+                    if (!paused)
                     {
-                        blocks[i].Move();
-                    }
-                    
-                }
-                coinFrame = coinFPS.Fps(gameTime, coinFrames);
-                
-                if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
-                {
-                    if(!won && !person.lost)
-                    {
-                        if (person.Move(currentFrame, 4, surface, currentLevel))
+                        for (int i = 0; i < blocks.Count; i++)
                         {
-                            currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
+                            if (i != 0)
+                            {
+                                blocks[i].Move();
+                            }
+
+                        }
+                        coinFrame = coinFPS.Fps(gameTime, coinFrames);
+
+                        if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
+                        {
+                            if (!won && !person.lost)
+                            {
+                                if (person.Move(currentFrame, 4, surface, currentLevel))
+                                {
+                                    currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
+                                }
+                                else
+                                {
+                                    currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
+                                }
+                            }
+
                         }
                         else
                         {
-                            currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
+                            currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
                         }
-                    }
-                   
+
+                        if (won)
+                        {
+                            wonScreen.RestartButton.Update();
+
+                            if (currentLevel == 1)
+                            {
+                                wonScreen.NextButton.Update();
+                            }
+                            else
+                            {
+                                wonScreen.HomeButton.Update();
+                            }
+                        }
+
+
+                        if (person.lost)
+                        {
+                            gameOverScreen.RestartButton.Update();
+                        }
+
+                    }   
                 }
                 else
                 {
-                    currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
+                    mainScreen.StartButton.Update();
                 }
 
-                if(won)
-                {
-                    wonScreen.RestartButton.Update();
+                // TODO: Add your update logic here
 
-                    if(currentLevel == 1)
-                    {
-                        wonScreen.NextButton.Update();
-                    }
-                    else
-                    {
-                        wonScreen.HomeButton.Update();
-                    }
-                }
-                
+                base.Update(gameTime);
+            
+            
 
-                if(person.lost)
-                {
-                    gameOverScreen.RestartButton.Update();
-                }
-                
-            }else
-            {
-                mainScreen.StartButton.Update();
-            }
-
-            // TODO: Add your update logic here
-
-            base.Update(gameTime);
+            
         }
 
         protected override void Draw(GameTime gameTime)
@@ -305,7 +323,11 @@ namespace MyGame
                     {
                         //arrows[i].ArrowBox.Draw(_spriteBatch, blockTexture);
                         arrows[i].Draw(arrow);
-                        arrows[i].Fall();
+                        if(!paused)
+                        {
+                            arrows[i].Fall();
+                        }
+                        
                     }
 
                 }
@@ -370,6 +392,13 @@ namespace MyGame
                         ResetLevel();
                         gameOverScreen.RestartButton.pressed = false;
                     }
+                }
+
+                if(paused)
+                {
+                    _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, background.Width, background.Height), Color.Black * 0.5f);
+                    _spriteBatch.Draw(pauseButton, new Vector2((background.Width / 2) - 138, (background.Height / 2) - 158), Color.White);
+                    
                 }
 
                 
