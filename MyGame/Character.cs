@@ -36,7 +36,16 @@ namespace MyGame
         public List<Enemy> arrows { get; set; }
         public int coins = 0;
 
+        private float normal = 1;
+        private float damaged = 0.5f;
+        private float transparencyState;
+        private float transparency;
 
+        private int timer = 60 * 5;
+        private double flickeringTimer = 60 * 0.1;
+
+        private bool damagingSurface = false;
+        private bool damagingArrow = false;
 
 
         public Character(Texture2D texture, Vector2 startPosition, SpriteBatch spritebatch)
@@ -50,13 +59,16 @@ namespace MyGame
             hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
             feetBox = new Hitbox((int)_startPosition.X + 50, (int)_startPosition.Y + 103, 20, 5);
 
-
+            transparency = normal;
+            transparencyState = normal;
 
         }
 
         public void Draw(Rectangle _currentFrame)
         {
-            _spritebatch.Draw(_texture, _startPosition, _currentFrame, Color.White, 0, new Vector2(0, 0), new Vector2(2, 2), effect, 0);
+            _spritebatch.Draw(_texture, _startPosition, _currentFrame, Color.White * transparency, 0, new Vector2(0, 0), new Vector2(2, 2), effect, 0);
+
+            
         }
 
         public bool Move(Rectangle _currentFrame, int speed, Rectangle surface, int level)
@@ -125,20 +137,42 @@ namespace MyGame
 
             if (Keyboard.GetState().IsKeyDown(Keys.S) || !jumping)
             {
-                if (hitbox.TrueHitbox.Intersects(surface))
+                if (hitbox.TrueHitbox.Intersects(surface) || damagingSurface)
                 {
                     //lost = true;
-                    health--;
-
-                    jumpspeed = -200;
-
-                    if (jumpspeed < 0)
+                    
+                     
+                    if(hitbox.TrueHitbox.Intersects(surface))
                     {
-                        _startPosition.Y += jumpspeed;
+                        health--;
+                        jumpspeed = -200;
 
-                        jumpspeed += 1;
+                        if (jumpspeed < 0)
+                        {
+                            _startPosition.Y += jumpspeed;
 
+                            jumpspeed += 1;
+
+                        }
                     }
+
+
+
+
+
+                    damagingSurface = true;
+
+                    DamageFlickering();
+
+                    if (timer == 0)
+                    {
+                        damagingSurface = false;
+                        timer = 60 * 5;
+                        transparency = normal;
+                        transparencyState = normal;
+                    }
+
+
 
                 }
 
@@ -146,18 +180,35 @@ namespace MyGame
                 {
                     foreach (var arrow in arrows)
                     {
-                        if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox))
+                        if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox) || damagingArrow)
                         {
-                            health--;
-
-                            jumpspeed = -200;
-
-                            if (jumpspeed < 0)
+                            if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox)) 
                             {
-                                _startPosition.Y += jumpspeed;
+                                health--;
 
-                                jumpspeed += 1;
+                                jumpspeed = -200;
 
+                                if (jumpspeed < 0)
+                                {
+                                    _startPosition.Y += jumpspeed;
+
+                                    jumpspeed += 1;
+
+                                }
+                            }
+                            
+
+
+                            damagingArrow = true;
+
+                            DamageFlickering();
+
+                            if (timer == 0)
+                            {
+                                damagingArrow = false;
+                                timer = 60 * 5;
+                                transparency = normal;
+                                transparencyState = normal;
                             }
                         }
                     }
@@ -254,6 +305,12 @@ namespace MyGame
 
         public void Restart()
         {
+            flickeringTimer = 60 * 0.1;
+            timer = 60 * 5;
+            transparency = normal;
+            transparencyState = normal;
+            damagingSurface = false;
+            damagingArrow = false;
             health = 3;
             lost = false;
             coins = 0;
@@ -266,6 +323,45 @@ namespace MyGame
 
             hitbox = new Hitbox((int)_startPosition.X + 19 * 2, (int)_startPosition.Y + 22 * 2, 25 * 2, 33 * 2);
 
+        }
+
+        private void DamageFlickering()
+        {
+            timer--;
+
+
+
+            if (timer > 0)
+            {
+
+                flickeringTimer--;
+
+                if (flickeringTimer == 0)
+                {
+
+                    flickeringTimer = 60 * 0.5;
+                    if (transparencyState == normal)
+                    {
+                        transparencyState = damaged;
+                    }
+                    else if (transparencyState == damaged)
+                    {
+                        transparencyState = normal;
+                    }
+                }
+
+                if (transparencyState == normal)
+                {
+                    transparency = normal;
+                }
+
+                if (transparencyState == damaged)
+                {
+                    transparency = damaged;
+                }
+
+
+            }
         }
     }
 }
