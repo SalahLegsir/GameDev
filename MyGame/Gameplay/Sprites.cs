@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyGame
+namespace MyGame.Gameplay
 {
     internal class Sprites
     {
@@ -15,15 +15,15 @@ namespace MyGame
         {
             _heightFrame = heightFrame;
             _widthFrame = widthFrame;
-            _frameRect = new Rectangle(0, 0, _widthFrame , _heightFrame);
+            _frameRect = new Rectangle(0, 0, _widthFrame, _heightFrame);
         }
 
-        private int _widthFrame { get;  set; }
-        private int _heightFrame { get;  set; }
+        private int _widthFrame { get; set; }
+        private int _heightFrame { get; set; }
 
         private Rectangle _frameRect;
- 
-        public Dictionary<string,List<Rectangle>> MakeDictionary()
+
+        public Dictionary<string, List<Rectangle>> MakeDictionary()
         {
             Dictionary<string, List<Rectangle>> movements = new Dictionary<string, List<Rectangle>>();
 

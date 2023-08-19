@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyGame
+namespace MyGame.Gameplay
 {
     internal class Hitbox
     {
@@ -21,24 +21,24 @@ namespace MyGame
         {
             this._startPositionX = _startPositionX;
             this._startPositionY = _startPositionY;
-            this.width = w;
-            this.height = h;
-            TrueHitbox = new Rectangle(this._startPositionX,this._startPositionY,this.width,this.height);
+            width = w;
+            height = h;
+            TrueHitbox = new Rectangle(this._startPositionX, this._startPositionY, width, height);
         }
 
         public void Update(int _startPositionX, int _startPositionY)
         {
             this._startPositionX = _startPositionX;
             this._startPositionY = _startPositionY;
-            
-            TrueHitbox = new Rectangle(this._startPositionX, this._startPositionY, this.width, this.height);
+
+            TrueHitbox = new Rectangle(this._startPositionX, this._startPositionY, width, height);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Texture2D block )
+        public void Draw(SpriteBatch spriteBatch, Texture2D block)
         {
             spriteBatch.Draw(block, TrueHitbox, Color.Red);
         }
 
-       
+
     }
 }

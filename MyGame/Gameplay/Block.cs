@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyGame
+namespace MyGame.Gameplay
 {
     internal class Block
     {
@@ -31,30 +31,30 @@ namespace MyGame
 
         public void Draw(Texture2D blockTexture)
         {
-            
+
             spriteBatch.Draw(blockTexture, posistion, block, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0);
-           
+
         }
 
         public void Move()
         {
-             
+
             posistion.X += speed;
-            
+
             hitBox.Update((int)posistion.X, (int)posistion.Y);
-            if(posistion.X <= 200)
+            if (posistion.X <= 200)
             {
                 speed = 1;
             }
-            
-            if(posistion.X >= 750)
+
+            if (posistion.X >= 750)
             {
                 speed = -1;
             }
-                  
+
         }
 
-        public  bool Collision(Rectangle hitbox)
+        public bool Collision(Rectangle hitbox)
         {
             return hitBox.TrueHitbox.Intersects(hitbox);
         }

@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyGame
+namespace MyGame.Gameplay
 {
     internal class Collectable
     {
         public Hitbox hitBox { get; set; }
 
-       
+
         private Texture2D _texture;
         public Vector2 _startPosition;
         private SpriteBatch _spritebatch;

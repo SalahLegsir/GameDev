@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MyGame.Gameplay;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyGame
+namespace MyGame.Button
 {
     internal class Button
     {
@@ -31,11 +32,11 @@ namespace MyGame
         public void Update()
         {
             MouseState ms = Mouse.GetState();
-            Rectangle cursor = new Rectangle((int)ms.X, (int)ms.Y, 1, 1);
+            Rectangle cursor = new Rectangle(ms.X, ms.Y, 1, 1);
 
-            if(cursor.Intersects(buttonBox.TrueHitbox))
+            if (cursor.Intersects(buttonBox.TrueHitbox))
             {
-                if(ms.LeftButton == ButtonState.Pressed && lastState.LeftButton == ButtonState.Released)
+                if (ms.LeftButton == ButtonState.Pressed && lastState.LeftButton == ButtonState.Released)
                 {
                     pressed = true;
                 }

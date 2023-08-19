@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using MyGame.Gameplay;
+using MyGame.Start;
 using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
 using SharpDX.XAudio2;
@@ -38,8 +39,8 @@ namespace MyGame
         private Rectangle block2 = new Rectangle(600, 500, 100, 30);
         private List<Block> blocks;
         private Texture2D coin;
-        private Gameover gameOverScreen;
-        private Won wonScreen;
+        private Gameover.Gameover gameOverScreen;
+        private Won.Won wonScreen;
         private Main mainScreen;
         
         private List<Rectangle> coinFrames = new List<Rectangle>();
@@ -131,9 +132,9 @@ namespace MyGame
             surface = new Rectangle(0, 720, 1000, 20);
 
 
-            gameOverScreen = new Gameover(_spriteBatch, restartButton);
+            gameOverScreen = new Gameover.Gameover(_spriteBatch, restartButton);
             mainScreen = new Main(_spriteBatch, startButton);
-            wonScreen = new Won(_spriteBatch,restartButton, homeButton,nextButton);
+            wonScreen = new Won.Won(_spriteBatch,restartButton, homeButton,nextButton);
             arrowEnemy = new Enemy(_spriteBatch);
 
             blocks = new List<Block>() {

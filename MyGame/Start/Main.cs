@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using MyGame.Button;
 
-namespace MyGame
+namespace MyGame.Start
 {
     internal class Main
     {
         private SpriteBatch _spriteBatch;
-        public Button StartButton { get; set; }
+        public Button.Button StartButton { get; set; }
 
         public Main(SpriteBatch spriteBatch, Texture2D button)
         {
             _spriteBatch = spriteBatch;
-            StartButton = new Button(button, new Vector2(200,300), new Hitbox(237, 358, 440, 162));
+            StartButton = new Button.Button(button, new Vector2(200, 300), new Gameplay.Hitbox(237, 358, 440, 162));
         }
 
         public void Draw(Texture2D main, SpriteFont spriteFont)

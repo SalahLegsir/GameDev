@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
-namespace MyGame
+namespace MyGame.Gameplay
 {
     internal class Character
     {
@@ -68,7 +68,7 @@ namespace MyGame
         {
             _spritebatch.Draw(_texture, _startPosition, _currentFrame, Color.White * transparency, 0, new Vector2(0, 0), new Vector2(2, 2), effect, 0);
 
-            
+
         }
 
         public bool Move(Rectangle _currentFrame, int speed, Rectangle surface, int level)
@@ -83,7 +83,7 @@ namespace MyGame
                 {
                     _startPosition.Y += 0;
 
-                   
+
 
 
                 }
@@ -122,7 +122,7 @@ namespace MyGame
                 if (_startPosition.X + hitbox.TrueHitbox.Width >= 895)
                 {
                     _startPosition.X += 0;
-                   
+
 
                 }
                 else
@@ -140,9 +140,9 @@ namespace MyGame
                 if (hitbox.TrueHitbox.Intersects(surface) || damagingSurface)
                 {
                     //lost = true;
-                    
-                     
-                    if(hitbox.TrueHitbox.Intersects(surface))
+
+
+                    if (hitbox.TrueHitbox.Intersects(surface))
                     {
                         health--;
                         jumpspeed = -200;
@@ -176,13 +176,13 @@ namespace MyGame
 
                 }
 
-                if(level == 2)
+                if (level == 2)
                 {
                     foreach (var arrow in arrows)
                     {
                         if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox) || damagingArrow)
                         {
-                            if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox)) 
+                            if (arrow.ArrowBox.TrueHitbox.Intersects(hitbox.TrueHitbox))
                             {
                                 health--;
 
@@ -196,7 +196,7 @@ namespace MyGame
 
                                 }
                             }
-                            
+
 
 
                             damagingArrow = true;
@@ -237,10 +237,11 @@ namespace MyGame
                 }
             }
 
-            if(health <= 0)
+            if (health <= 0)
             {
                 lost = true;
-            }else
+            }
+            else
             {
                 lost = false;
             }
@@ -274,7 +275,7 @@ namespace MyGame
 
             KeyboardState keyState = Keyboard.GetState();
 
-            
+
             if (jumping)
             {
                 if (jumpspeed < 0)
@@ -287,7 +288,7 @@ namespace MyGame
                 else
                 {
                     jumping = false;
-                    
+
                 }
             }
             else
@@ -295,7 +296,7 @@ namespace MyGame
                 if (keyState.IsKeyDown(Keys.Space) && !falling)
                 {
                     jumping = true;
-                    
+
                     jumpspeed = -16;
                 }
             }

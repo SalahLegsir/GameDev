@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyGame
+namespace MyGame.Gameplay
 {
     internal class FPS
     {
@@ -15,15 +15,15 @@ namespace MyGame
         private Rectangle currentFrame;
         private int counter = 0;
         private double secondCounter = 0;
-      
-        
+
+
         public Rectangle Fps(GameTime gametime, List<Rectangle> frames)
         {
             currentFrame = frames[counter];
 
             secondCounter += gametime.ElapsedGameTime.TotalSeconds;
             int fps = 10;
-            
+
 
             if (secondCounter >= 1d / fps)
             {
