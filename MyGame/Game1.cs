@@ -42,12 +42,12 @@ namespace MyGame
         private Gameover.Gameover gameOverScreen;
         private Won.Won wonScreen;
         private Main mainScreen;
-        
+
         private List<Rectangle> coinFrames = new List<Rectangle>();
         private Sprites coins = new Sprites(200, 200);
         private FPS coinFPS = new FPS();
         private Rectangle coinFrame;
-        private Hitbox coinBox = new Hitbox(15,28,175,170);
+        private Hitbox coinBox = new Hitbox(15, 28, 175, 170);
         private Texture2D heart;
         private bool won = false;
         private Enemy arrowEnemy;
@@ -72,12 +72,11 @@ namespace MyGame
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            
+
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             currentLevel = 1;
 
@@ -95,7 +94,7 @@ namespace MyGame
             homeButton = Content.Load<Texture2D>("Buttons/HomeButton");
             block = Content.Load<Texture2D>("Screens/Game/Block");
             pauseButton = Content.Load<Texture2D>("Buttons/PauseButton");
-            
+
 
 
             vector = new Vector2(120, 450);
@@ -108,8 +107,8 @@ namespace MyGame
 
 
             coinFrames = coins.MakeList(6, 0);
-            
-            
+
+
 
             _graphics.PreferredBackBufferWidth = background.Width;
             _graphics.PreferredBackBufferHeight = background.Height;
@@ -134,7 +133,7 @@ namespace MyGame
 
             gameOverScreen = new Gameover.Gameover(_spriteBatch, restartButton);
             mainScreen = new Main(_spriteBatch, startButton);
-            wonScreen = new Won.Won(_spriteBatch,restartButton, homeButton,nextButton);
+            wonScreen = new Won.Won(_spriteBatch, restartButton, homeButton, nextButton);
             arrowEnemy = new Enemy(_spriteBatch);
 
             blocks = new List<Block>() {
@@ -174,7 +173,7 @@ namespace MyGame
             person.Blocks = blocks;
             person.arrows = arrows;
 
-            // TODO: use this.Content to load your game content here
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -187,79 +186,79 @@ namespace MyGame
 
 
             lastState = state;
-           
 
-            
-              
-            
-                if (mainScreen.StartButton.pressed)
+
+
+
+
+            if (mainScreen.StartButton.pressed)
+            {
+                if (!paused)
                 {
-                    if (!paused)
+                    for (int i = 0; i < blocks.Count; i++)
                     {
-                        for (int i = 0; i < blocks.Count; i++)
+                        if (i != 0)
                         {
-                            if (i != 0)
-                            {
-                                blocks[i].Move();
-                            }
-
-                        }
-                        coinFrame = coinFPS.Fps(gameTime, coinFrames);
-
-                        if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
-                        {
-                            if (!won && !person.lost)
-                            {
-                                if (person.Move(currentFrame, 4, surface, currentLevel))
-                                {
-                                    currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
-                                }
-                                else
-                                {
-                                    currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
-                                }
-                            }
-
-                        }
-                        else
-                        {
-                            currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
+                            blocks[i].Move();
                         }
 
-                        if (won)
-                        {
-                            wonScreen.RestartButton.Update();
+                    }
+                    coinFrame = coinFPS.Fps(gameTime, coinFrames);
 
-                            if (currentLevel == 1)
+                    if (!person.Attack()) //Kan niet tegelijkertijd aanvallen en lopen
+                    {
+                        if (!won && !person.lost)
+                        {
+                            if (person.Move(currentFrame, 4, surface, currentLevel))
                             {
-                                wonScreen.NextButton.Update();
+                                currentFrame = fpsWalk.Fps(gameTime, movements["walk"]);
                             }
                             else
                             {
-                                wonScreen.HomeButton.Update();
+                                currentFrame = fpsIdle.Fps(gameTime, movements["idle"]);
                             }
                         }
 
+                    }
+                    else
+                    {
+                        currentFrame = fpsPowerShot.Fps(gameTime, movements["powerShot"]);
+                    }
 
-                        if (person.lost)
+                    if (won)
+                    {
+                        wonScreen.RestartButton.Update();
+
+                        if (currentLevel == 1)
                         {
-                            gameOverScreen.RestartButton.Update();
+                            wonScreen.NextButton.Update();
                         }
+                        else
+                        {
+                            wonScreen.HomeButton.Update();
+                        }
+                    }
 
-                    }   
+
+                    if (person.lost)
+                    {
+                        gameOverScreen.RestartButton.Update();
+                    }
+
                 }
-                else
-                {
-                    mainScreen.StartButton.Update();
-                }
+            }
+            else
+            {
+                mainScreen.StartButton.Update();
+            }
 
-                // TODO: Add your update logic here
 
-                base.Update(gameTime);
-            
-            
 
-            
+            base.Update(gameTime);
+
+
+
+
         }
 
         protected override void Draw(GameTime gameTime)
@@ -271,15 +270,13 @@ namespace MyGame
             {
                 _spriteBatch.Draw(background, new Rectangle(0, 0, background.Width, background.Height), Color.White);
 
-                //_spriteBatch.Draw(blockTexture, person.hitbox.TrueHitbox, Color.Orange);
 
-                //_spriteBatch.Draw(blockTexture, surface, Color.Black);
 
-                _spriteBatch.Draw(dataBlock, new Rectangle(740,10,180,90), Color.White);
+                _spriteBatch.Draw(dataBlock, new Rectangle(740, 10, 180, 90), Color.White);
                 _spriteBatch.DrawString(spriteFont, $"Level {currentLevel}", new Vector2(810, 70), Color.Black);
                 _spriteBatch.DrawString(spriteFont, $"X{person.coins}", new Vector2(770, 70), Color.Black);
 
-                _spriteBatch.Draw(coin, new Vector2(740,65), coinFrame, Color.White, 0, new Vector2(0, 0), 0.15f, SpriteEffects.None, 0);
+                _spriteBatch.Draw(coin, new Vector2(740, 65), coinFrame, Color.White, 0, new Vector2(0, 0), 0.15f, SpriteEffects.None, 0);
 
 
 
@@ -288,25 +285,25 @@ namespace MyGame
                     block.Draw(this.block);
                 }
 
-                foreach(var coin in collectCoins)
+                foreach (var coin in collectCoins)
                 {
-                    
-                    if(person.hitbox.TrueHitbox.Intersects(coin.hitBox.TrueHitbox) && !coin.collected)
+
+                    if (person.hitbox.TrueHitbox.Intersects(coin.hitBox.TrueHitbox) && !coin.collected)
                     {
                         coin.collected = true;
                         person.coins++;
                     }
 
-                    if(!coin.collected)
+                    if (!coin.collected)
                     {
-                        //coin.hitBox.Draw(_spriteBatch, blockTexture);
+
                         coin.Draw(coinFrame);
                     }
                 }
 
 
 
-                //person.feetBox.Draw(_spriteBatch, blockTexture);
+
                 person.Draw(currentFrame);
 
 
@@ -314,28 +311,28 @@ namespace MyGame
                 if (person.hitbox.TrueHitbox.Intersects(coinBox.TrueHitbox))
                 {
                     won = true;
-                } 
-                
+                }
+
                 DrawHealth();
 
                 if (currentLevel == 2)
                 {
                     for (int i = 0; i < arrows.Count; i++)
                     {
-                        //arrows[i].ArrowBox.Draw(_spriteBatch, blockTexture);
+
                         arrows[i].Draw(arrow);
-                        if(!paused)
+                        if (!paused)
                         {
                             arrows[i].Fall();
                         }
-                        
+
                     }
 
                 }
 
                 if (!won)
                 {
-                    //_spriteBatch.Draw(blockTexture, coinBox.TrueHitbox, Color.Orange);
+
                     _spriteBatch.Draw(coin, new Vector2(0, 0), coinFrame, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), 0, 0);
 
 
@@ -343,11 +340,11 @@ namespace MyGame
                 else
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
-                    wonScreen.Draw(spriteFont, wonPic, currentLevel);
+                    wonScreen.Draw(wonPic, currentLevel);
 
-                    
 
-                    
+
+
 
                     if (wonScreen.RestartButton.pressed)
                     {
@@ -357,7 +354,7 @@ namespace MyGame
 
                     }
 
-                    if(currentLevel == 1)
+                    if (currentLevel == 1)
                     {
                         if (wonScreen.NextButton.pressed)
                         {
@@ -366,9 +363,10 @@ namespace MyGame
                             won = false;
                             wonScreen.NextButton.pressed = false;
                         }
-                    }else
+                    }
+                    else
                     {
-                        if(wonScreen.HomeButton.pressed)
+                        if (wonScreen.HomeButton.pressed)
                         {
                             currentLevel = 1;
                             ResetLevel();
@@ -377,16 +375,16 @@ namespace MyGame
                             wonScreen.HomeButton.pressed = false;
                         }
                     }
-                   
+
                 }
 
 
 
-               
+
                 if (person.lost)
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, 1000, 1000), Color.Black);
-                    gameOverScreen.Draw(gameOver, spriteFont);
+                    gameOverScreen.Draw(gameOver);
 
                     if (gameOverScreen.RestartButton.pressed)
                     {
@@ -395,28 +393,29 @@ namespace MyGame
                     }
                 }
 
-                if(paused)
+                if (paused)
                 {
                     _spriteBatch.Draw(blockTexture, new Rectangle(0, 0, background.Width, background.Height), Color.Black * 0.5f);
                     _spriteBatch.Draw(pauseButton, new Vector2((background.Width / 2) - 138, (background.Height / 2) - 158), Color.White);
-                    
+
                 }
 
-                
-                
-            }else
-            {
-                
-                mainScreen.Draw(background, spriteFont);
-                
 
-               
+
+            }
+            else
+            {
+
+                mainScreen.Draw(background);
+
+
+
             }
 
             _spriteBatch.End();
 
-            
-            // TODO: Add your drawing code here
+
+
 
             base.Draw(gameTime);
         }
@@ -425,8 +424,8 @@ namespace MyGame
 
         public void DrawHealth()
         {
-            int x = 770; 
-            for(int i = 0; i < person.health; i++)
+            int x = 770;
+            for (int i = 0; i < person.health; i++)
             {
                 _spriteBatch.Draw(heart, new Rectangle(x - 10, 20, heart.Width, heart.Height), Color.White);
                 x += heart.Width;

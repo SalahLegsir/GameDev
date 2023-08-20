@@ -25,7 +25,7 @@ namespace MyGame.Won
 
         }
 
-        public void Draw(SpriteFont spriteFont, Texture2D won, int level)
+        public void Draw(Texture2D won, int level)
         {
 
 

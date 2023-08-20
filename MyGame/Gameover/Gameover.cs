@@ -23,7 +23,7 @@ namespace MyGame.Gameover
 
         }
 
-        public void Draw(Texture2D gameOver, SpriteFont spriteFont)
+        public void Draw(Texture2D gameOver)
         {
             _spriteBatch.Draw(gameOver, new Rectangle(250, 300, gameOver.Width, gameOver.Height), Color.White);
             RestartButton.Draw(_spriteBatch);

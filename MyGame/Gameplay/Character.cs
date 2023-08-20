@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 namespace MyGame.Gameplay
 {
-    internal class Character: IMove, IJump
+    internal class Character : IMove, IJump
     {
         private bool falling = false;
         private Texture2D _texture;
@@ -140,8 +140,6 @@ namespace MyGame.Gameplay
             {
                 if (hitbox.TrueHitbox.Intersects(surface) || damagingSurface)
                 {
-                    //lost = true;
-
 
                     if (hitbox.TrueHitbox.Intersects(surface))
                     {
@@ -218,14 +216,13 @@ namespace MyGame.Gameplay
 
                 if (hitbox.TrueHitbox.Intersects(surface) || Blocks[0].Collision(feetBox.TrueHitbox) || Blocks[1].Collision(feetBox.TrueHitbox) || Blocks[2].Collision(feetBox.TrueHitbox) || Blocks[3].Collision(feetBox.TrueHitbox) || Blocks[4].Collision(feetBox.TrueHitbox) || Blocks[5].Collision(feetBox.TrueHitbox))
                 {
-                    //_startPosition.Y += 0;
+
                     gravity = 1;
                     falling = false;
                 }
                 else
                 {
 
-                    //lost = false;
                     _startPosition.Y += gravity;
 
                     if (gravity < 5)

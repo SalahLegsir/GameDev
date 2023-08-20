@@ -21,7 +21,7 @@ namespace MyGame.Start
             StartButton = new Button.Button(button, new Vector2(200, 300), new Gameplay.Hitbox(237, 358, 440, 162));
         }
 
-        public void Draw(Texture2D main, SpriteFont spriteFont)
+        public void Draw(Texture2D main)
         {
 
             _spriteBatch.Draw(main, new Rectangle(0, 0, main.Width, main.Height), Color.White);

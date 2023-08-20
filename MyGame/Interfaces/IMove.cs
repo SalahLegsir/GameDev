@@ -10,6 +10,6 @@ namespace MyGame.Interfaces
     internal interface IMove
     {
         bool Move(Rectangle _currentFrame, int speed, Rectangle surface, int level);
-        
+
     }
 }
